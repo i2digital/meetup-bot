@@ -2,7 +2,7 @@
   "name": "drcarioca-bot",
   "version": "0.0.1",
   "description": "FB Messenger bot para a área de saúde",
-  "main": "bot.js",
+  "main": "test_bot.js",
   "scripts": {
     "start": "node src/test_bot.js"
   },
