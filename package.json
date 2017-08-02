@@ -4,7 +4,7 @@
   "description": "FB Messenger bot para a área de saúde",
   "main": "bot.js",
   "scripts": {
-    "start": "node src/bot.js"
+    "start": "node src/test_bot.js"
   },
   "dependencies": {
     "@google/maps": "^0.4.0",
