@@ -1,24 +1,24 @@
 module.exports = function (controller) {
 
   controller.api.messenger_profile.greeting("Hi! I'm a bot from TIP 2017 class. I can help you have info about the program.");
-  controller.api.messenger_profile.get_started('HELP_PAYLOAD');
+  controller.api.messenger_profile.get_started('welcome');
   controller.api.messenger_profile.domain_whitelist(['http://dev-tip-2017-bot.pantheonsite.io/view/session/today']);
 
   menu_call_to_actions = [
     {
-      "title": "Current",
+      "title": "Agora",
       "type": "postback",
-      "payload": "CURRENT_PAYLOAD"
+      "payload": "current"
     },
     {
-      "title": "Next",
+      "title": "Próxima",
       "type": "postback",
-      "payload": "NEXT_PAYLOAD"
+      "payload": "next"
     },
     {
-      "title": "Help",
+      "title": "Ajuda",
       "type": "postback",
-      "payload": "HELP_PAYLOAD"
+      "payload": "about"
     }
   ];
 

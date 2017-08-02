@@ -8,7 +8,7 @@ module.exports = function (controller) {
     bot.startTyping(message, function () {
 
       date = new Date();
-      bot.reply(message, 'Sessions for tomorrow ' + (date.getMonth() + 1) + '/' + (date.getDate() + 1) + ":");
+      bot.reply(message, 'Atividades para amanhã ' + (date.getMonth() + 1) + '/' + (date.getDate() + 1) + ":");
 
       SessionService().getTomorrow()
         .then(function (items) {

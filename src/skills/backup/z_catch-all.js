@@ -2,9 +2,7 @@ var BotUI = require('../components/BotUI');
 
 module.exports = function (controller) {
 
-  controller.hears(['.*'], ['message_received'], function (bot, message) {
-
-    console.log(message);
+  controller.hears(['.*'], ['message_received'],  function (bot, message) {
 
     if (
       message.text != 'help'

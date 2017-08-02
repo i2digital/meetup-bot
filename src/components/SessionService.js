@@ -2,7 +2,7 @@ var rp = require('request-promise');
 
 module.exports = function () {
 
-  api_path = 'https://dev-tip-2017-bot.pantheonsite.io/api';
+  api_path = 'http://dev-tip-2017-bot.pantheonsite.io/api/event/115';
 
   SessionService = {
 

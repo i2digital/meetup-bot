@@ -37,7 +37,7 @@ watsonMiddleware = require('botkit-middleware-watson')({
   username: watson_username,
   password: watson_password,
   workspace_id: watson_workspace_id,
-  version_date: '2016-09-20'
+  version_date: '2017-05-26',
 });
 
 var controller = Botkit.facebookbot({

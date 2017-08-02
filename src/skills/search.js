@@ -3,13 +3,15 @@ var BotUI = require('../components/BotUI');
 
 module.exports = function (controller) {
 
-  controller.hears(['search (.*)', 'find (.*)'], 'message_received', function (bot, message) {
+  controller.hears(['buscar (.*)', 'busca (.*)', 'encontrar (.*)'], 'message_received', function (bot, message) {
+
+    console.log(message.watsonData) ;
 
     var keyword = message.match[1];
 
     bot.startTyping(message, function () {
 
-      bot.reply(message, 'Searching for ' + keyword);
+      bot.reply(message, 'Buscando por ' + keyword);
 
       SessionService().getSearch(keyword)
         .then(function (items) {
