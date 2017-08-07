@@ -1,5 +1,7 @@
 var BotUI = require('../components/BotUI');
 var SessionService = require('../components/SessionService');
+var LocationService = require('../components/LocationService');
+
 
 module.exports = function (bot, message) {
 
@@ -65,7 +67,7 @@ module.exports = function (bot, message) {
                 .then(function (items) {
                     if(items.length > 0){
                         item = items[0];
-                        msg = item.title + ' (' + item.track + ")\n" + item.presenter + ' - ' + item.date_start + '/' + item.date_end;
+                        msg = item.title + ' (' + item.tags + ")\n" + item.presenter + ' - ' + item.date_start + '/' + item.date_end;
                         bot.reply(message, msg);
                     }else {
                         bot.reply(message, 'Não existem atividades para serem exibidas ;)');
@@ -81,12 +83,11 @@ module.exports = function (bot, message) {
 
         current: function() {
             bot.startTyping(message, function () {
-
             SessionService().getCurrent()
             .then(function (items) {
                 if (items.length > 0) {
                     item = items[0];
-                    msg = item.title + ' (' + item.track + ")\n" + item.presenter + ' - ' + item.date_start + '/' + item.date_end;
+                    msg = item.title + ' (' + item.field_tags + ")\n" + item.presenter + ' - ' + item.date_start + '/' + item.date_end;
                     bot.reply(message, msg);
                   } else {
                     bot.reply(message, 'Não há atividades agora ;)');
@@ -99,9 +100,24 @@ module.exports = function (bot, message) {
             });
         },
 
-
-
-
+        //TODO NEEDS REFACTORING
+        showLocationsList : function () {
+        bot.startConversation(message, function (err, convo) {
+               LocationService().listLocations()
+               .then(function(items){
+                    if(items.length > 0) {
+                        items.forEach(function (item) {
+                            if(item.address){
+                                msg = item.title + ':\n';
+                                msg += item.address;
+                                convo.say(msg);
+                                convo.next();
+                            }
+                        });
+                    }
+               });
+           });
+        }
     }
 
     return SkillSet;

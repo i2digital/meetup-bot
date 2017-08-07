@@ -47,6 +47,12 @@ module.exports = function (bot, message, eventEmitter) {
                 SkillSet.showTodayWebview();
             });
         },
+
+        hearShowWebview : function () {
+            eventEmitter.on('location', function() {
+                SkillSet.showLocationsList();
+            });
+        },
    }
 
    eventHandlers.hearAbout();
