@@ -41,8 +41,6 @@ module.exports = function () {
         // ----------------------- //
 
         //GENERIC TEMPLATE MODEL
-        var env = require('node-env-file');
-        env('../src/.env');
         api_path = process.env.API_PATH;
 
         var genericTemplateInterface = require('../components/FacebookAPIInterface').generic_template_model();
