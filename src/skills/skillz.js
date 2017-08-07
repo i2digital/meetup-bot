@@ -87,7 +87,8 @@ module.exports = function (bot, message) {
             .then(function (items) {
                 if (items.length > 0) {
                     item = items[0];
-                    msg = item.title + ' (' + item.field_tags + ")\n" + item.presenter + ' - ' + item.date_start + '/' + item.date_end;
+                    console.log(item);
+                    msg = item.title + ' (' + item.tags + ")\n" + item.presenter + ' - ' + item.date_start + '/' + item.date_end;
                     bot.reply(message, msg);
                   } else {
                     bot.reply(message, 'Não há atividades agora ;)');
