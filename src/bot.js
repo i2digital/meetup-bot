@@ -1,17 +1,18 @@
-var env = require('node-env-file');
-env(__dirname + '/.env');
+var env = require('node-env-file'); //puxa o módulo env responsável por setar o ambiente da aplicação
+env(__dirname + '/.env'); //aponta o móulo env para ler o arquivo .env
 
-var Botkit = require('botkit');
-var debug = require('debug')('botkit:main');
-var os = require('os');
+var Botkit = require('botkit'); //puxa o módulo do botkit
+var debug = require('debug')('botkit:main'); //requer o módulo de debug do botkit
+var os = require('os'); //puxa o módulo os, responsável por realizar operações do sistema operacional
 
-var fb_page_token;
-var watsonMiddleware;
+var fb_page_token; //declara a variável que vai receber o token da página do facebook, determinado pelo usuário no painel do facebook
+var watsonMiddleware; //declara a a variável que vai receber o middleware com o watson, responsável por integrar o botkit e a api do Watson Conversation
+
 
 watson_username = process.env.WATSON_CONVERSATION_USERNAME;
 watson_password = process.env.WATSON_CONVERSATION_PASSWORD;
 
-// On Heroku PROD, the variable BOT_ENV is set
+//seta o ambiente de acordo com o computador que o estiver executando no momento
 if (process.env.BOT_ENV) {
 
   watson_workspace_id = process.env.WATSON_CONVERSATION_WORKSPACEID_PROD;
@@ -33,6 +34,7 @@ if (process.env.BOT_ENV) {
   }
 }
 
+//seta a variável do middleware
 watsonMiddleware = require('botkit-middleware-watson')({
   username: watson_username,
   password: watson_password,
@@ -40,32 +42,41 @@ watsonMiddleware = require('botkit-middleware-watson')({
   version_date: '2017-05-26',
 });
 
+//seta a variável controller, ou seja, o orquestrador, responsável por lidar com as mensagens dos usuários
 var controller = Botkit.facebookbot({
   debug: true,
-  verify_token: process.env.FB_VERIFY_TOKEN,
   access_token: fb_page_token,
+  verify_token: process.env.FB_VERIFY_TOKEN,
+  bot_type: 'facebook',
   receive_via_postback: true,
-  require_delivery: true
+  // require_delivery: true
 });
 
+//faz com que o middleware receba todas as mensages enviadas pelo usuário, reagindo a elas ou não
 controller.middleware.receive.use(watsonMiddleware.receive);
 
-// Set up an Express-powered webserver to expose oauth and webhook endpoints
+//configura um webserver baseado em express, para expor os endpoints do webhook e as autorizações oauth
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
-// Tell Facebook to start sending events to this application
+//diz ao facebook para começar a mandar eventos para essa aplicação
 require(__dirname + '/components/subscribe_events.js')(controller);
 
-// Set up Facebook "thread settings" such as get started button, persistent menu
+//diz ao facebook para configurar suas 'thread settings' de acordo com o que estiver especificado no arquivo thread_settings.js
 require(__dirname + '/components/thread_settings.js')(controller);
 
-// Enable Dashbot.io plugin
+//ativa o módulo que representa o middleware com o dashbot
 require(__dirname + '/components/plugin_dashbot.js')(controller);
 
-// // Internal APIs
-// require(__dirname + '/components/UnitsService.js')(controller);
 
-var normalizedPath = require("path").join(__dirname, "skills");
-require("fs").readdirSync(normalizedPath).forEach(function (file) {
-  require("./skills/" + file)(controller, watsonMiddleware);
-});
+
+require(__dirname + "/skills/greeting.js")(controller, watsonMiddleware);
+
+require(__dirname + "/skills/goodbye.js")(controller, watsonMiddleware);
+
+require(__dirname + "/skills/welcome.js")(controller);
+
+
+require(__dirname + "/skills/search.js")(controller);
+
+require(__dirname + "/skills/process_all_events.js")(controller);
+

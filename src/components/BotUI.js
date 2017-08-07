@@ -27,7 +27,7 @@ module.exports = function () {
       }
     },
 
-    displayWebview: function (bot, message) {
+    todayInWebview: function (bot, message) {
         var replyMessage = {};
 
         // BUTTON MODEL
@@ -41,6 +41,10 @@ module.exports = function () {
         // ----------------------- //
 
         //GENERIC TEMPLATE MODEL
+        var env = require('node-env-file');
+        env('../src/.env');
+        api_path = process.env.API_PATH;
+
         var genericTemplateInterface = require('../components/FacebookAPIInterface').generic_template_model();
 
 

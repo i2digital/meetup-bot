@@ -11,11 +11,11 @@ module.exports = function (bot, message) {
             });
         },
 
-        showWebview : function () {
+        showTodayWebview : function () {
              bot.startTyping(message, function () {
                   SessionService().getToday()
                     .then(function (items) {
-                      BotUI().displayWebview(bot, message);
+                      BotUI().todayInWebview(bot, message);
                     })
                     .catch(function (err) {
                       console.log('ERROR SessionService().getToday()');

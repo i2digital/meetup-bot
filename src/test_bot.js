@@ -78,5 +78,5 @@ require(__dirname + "/skills/welcome.js")(controller);
 
 require(__dirname + "/skills/search.js")(controller);
 
-require(__dirname + "/skills/process_all.js")(controller);
+require(__dirname + "/skills/process_all_events.js")(controller);
 

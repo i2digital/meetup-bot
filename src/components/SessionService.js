@@ -1,8 +1,10 @@
 var rp = require('request-promise');
+var env = require('node-env-file');
+env('./src/.env');
 
 module.exports = function () {
 
-  api_path = 'http://dev-tip-2017-bot.pantheonsite.io/api/event/115';
+  api_path = process.env.API_PATH;
 
   SessionService = {
 
