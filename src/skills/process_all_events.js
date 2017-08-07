@@ -12,7 +12,7 @@ module.exports = function (controller) {
 
         if(message.watsonData.output.action){
 
-            console.log(message.user);
+            console.log(message.watsonData);
             handlers(bot, message, ee);
 
             let actionEvent = message.watsonData.output.action;

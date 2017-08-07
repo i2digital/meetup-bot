@@ -43,12 +43,13 @@ module.exports = function (bot, message, eventEmitter) {
         },
 
          hearShowWebview : function () {
+            console.log('SHOW WEBVIEW HANDLER');
             eventEmitter.on('show_webview', function() {
                 SkillSet.showTodayWebview();
             });
         },
 
-        hearShowWebview : function () {
+        hearShowLocations : function () {
             eventEmitter.on('location', function() {
                 SkillSet.showLocationsList();
             });
@@ -62,4 +63,5 @@ module.exports = function (bot, message, eventEmitter) {
    eventHandlers.hearShowWebview();
    eventHandlers.hearTomorrow();
    eventHandlers.hearWelcome();
+   eventHandlers.hearShowLocations();
 }
