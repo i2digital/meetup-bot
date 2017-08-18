@@ -10,18 +10,18 @@ module.exports = function (controller) {
 
     controller.hears(['(.*)'], ['message_received'], function (bot, message){
 
-        if(message.watsonData.output.action){
+        if(message.type === 'user_message'
+            && message.watsonData.output.action){
 
-            console.log(message.watsonData);
             handlers(bot, message, ee);
 
             let actionEvent = message.watsonData.output.action;
             ee.emit(actionEvent);
 
             ee.removeAllListeners();
-        } else {
+
+        } else if (message.watsonData) {
             bot.reply(message, message.watsonData.output.text[0]);
         }
-
     });
 }

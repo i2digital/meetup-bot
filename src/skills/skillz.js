@@ -2,7 +2,6 @@ var BotUI = require('../components/BotUI');
 var SessionService = require('../components/SessionService');
 var LocationService = require('../components/LocationService');
 
-
 module.exports = function (bot, message) {
 
     let SkillSet = {
@@ -101,25 +100,37 @@ module.exports = function (bot, message) {
             });
         },
 
-        //TODO NEEDS REFACTORING
         showLocationsList : function () {
-        bot.startConversation(message, function (err, convo) {
-               LocationService().listLocations()
-               .then(function(items){
-                    if(items.length > 0) {
-                        items.forEach(function (item) {
-                            if(item.address){
-                                msg = item.title + ':\n';
-                                msg += item.address;
-                                convo.say(msg);
-                                convo.next();
-                            }
-                        });
+            bot.startTyping(message, function(){
+                bot.startConversation(message, listLocations);
+
+                function listLocations (err, convo) {
+                   LocationService().listLocations()
+                   .then(iterateThroughLocations);
+
+                   function iterateThroughLocations (items) {
+                        if(items.length > 0) {
+                            items.forEach((item) => {
+                                if(item.address){
+                                    msg = item.title + ':\n';
+                                    msg += item.address;
+                                    convo.say(msg);
+                                    convo.next();
+                                }
+                            });
+                        }
                     }
-               });
-           });
+                }
+            });
         }
+
     }
+
 
     return SkillSet;
 }
+
+
+
+
+

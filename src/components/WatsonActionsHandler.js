@@ -43,7 +43,6 @@ module.exports = function (bot, message, eventEmitter) {
         },
 
          hearShowWebview : function () {
-            console.log('SHOW WEBVIEW HANDLER');
             eventEmitter.on('show_webview', function() {
                 SkillSet.showTodayWebview();
             });

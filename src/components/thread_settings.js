@@ -8,7 +8,7 @@ module.exports = function (controller) {
     {
       "title": "Agora",
       "type": "postback",
-      "payload": "current"
+      "payload": "current_payload"
     },
     {
       "title": "Próxima",
