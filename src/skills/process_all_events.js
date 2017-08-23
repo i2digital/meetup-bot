@@ -10,18 +10,22 @@ module.exports = function (controller) {
 
     controller.hears(['(.*)'], ['message_received'], function (bot, message){
 
-        if(message.type === 'user_message'
-            && message.watsonData.output.action){
+        if(message.text !== 'welcome_payload'){
+            console.log(message);
 
-            handlers(bot, message, ee);
+            if(message.type === 'user_message'
+                && message.watsonData.output.action){
 
-            let actionEvent = message.watsonData.output.action;
-            ee.emit(actionEvent);
+                handlers(bot, message, ee);
 
-            ee.removeAllListeners();
+                let actionEvent = message.watsonData.output.action;
+                ee.emit(actionEvent);
 
-        } else if (message.watsonData) {
-            bot.reply(message, message.watsonData.output.text[0]);
+                ee.removeAllListeners();
+
+            } else if (message.watsonData) {
+                bot.reply(message, message.watsonData.output.text[0]);
+            }
         }
     });
 }

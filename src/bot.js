@@ -50,15 +50,8 @@ var watsonMiddleware = require('botkit-middleware-watson')({
   version_date: '2017-05-26',
 });
 
-var receiveMiddleware = function (bot, message, next) {
-  if (message.type === 'user_message') {
-    watsonMiddleware.receive(bot, message, next);
-  } else {
-    next();
-  }
-};
 
-facebookController.middleware.receive.use(receiveMiddleware);
+facebookController.middleware.receive.use(watsonMiddleware.receive);
 
 
 var webserver = require(__dirname + '/components/express_webserver.js')(facebookController);
@@ -71,11 +64,11 @@ require(__dirname + '/components/plugin_dashbot.js')(facebookController);
 
 
 
-// require(__dirname + "/skills/greeting.js")(facebookController, watsonMiddleware);
+require(__dirname + "/skills/greeting.js")(facebookController, watsonMiddleware);
 
 require(__dirname + "/skills/goodbye.js")(facebookController, watsonMiddleware);
 
-require(__dirname + "/skills/welcome.js")(facebookController);
+require(__dirname + "/skills/welcome.js")(facebookController, watsonMiddleware);
 
 require(__dirname + "/skills/onboarding.js")(facebookController, watsonMiddleware);
 
