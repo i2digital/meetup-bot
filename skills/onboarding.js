@@ -1,6 +1,3 @@
-const Promise = require('bluebird');
-// const watsonUtils = require('botkit-middleware-watson/lib/middleware/index')();
-// let updateContext = Promise.promisify(watsonUtils.updateContext);
 let userProfile = require('../components/UserProfileAPIInterface');
 let BotUI = require('../components/BotUI');
 
