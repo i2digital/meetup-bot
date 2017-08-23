@@ -14,7 +14,7 @@ module.exports = function (controller, watsonMiddleware) {
     }
 
     function processWatsonResponse(bot, message) {
-
+        console.log('ONBOARDING');
         var newMessage = message;
         newMessage.text = 'welcome';
 
@@ -29,11 +29,11 @@ module.exports = function (controller, watsonMiddleware) {
                     nome: firstName
                     }
                     ,
-                    replyNewMessage);
+                    replyUpdatedMessage);
             }
         }
 
-        function replyNewMessage () {
+        function replyUpdatedMessage () {
             watsonMiddleware.sendToWatson(bot, newMessage, function(){
                 bot.reply(newMessage, newMessage.watsonData.output.text[0], function() {
                     bot.reply(newMessage, BotUI().aboutMessage());
