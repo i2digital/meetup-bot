@@ -1,6 +1,6 @@
 {
-  "name": "Dr. Carioca Bot",
-  "description": "FB Messenger bot para a área de saúde",
+  "name": "Hack Town Bot - 2017",
+  "description": "Facebook Messenger chatbot for events customer assistance",
   "repository": "https://github.com/howdyai/botkit-starter-facebook",
   "keywords": ["node", "bots", "facebook","botkit"],
   "website": "https://studio.botkit.ai/",

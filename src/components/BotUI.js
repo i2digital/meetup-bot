@@ -20,7 +20,10 @@ module.exports = function () {
               msg += item.title
             }
             if (item.presenter.length > 0) {
-              msg += item.presenter + "\n"
+              msg += item.presenter + "\n";
+            }
+            if(item.text.length > 0) {
+              msg += item.text + "\n";
             }
             msg += "\n";
             convo.say(msg);

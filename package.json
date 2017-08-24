@@ -1,7 +1,7 @@
 {
-  "name": "drcarioca-bot",
+  "name": "hacktown-bot",
   "version": "0.0.1",
-  "description": "FB Messenger bot para a área de saúde",
+  "description": "FB Messenger bot para o evento Hacktown 2017",
   "main": "bot.js",
   "scripts": {
     "start": "node src/bot.js"

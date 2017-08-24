@@ -9,20 +9,34 @@ module.exports = function (controller) {
 
     var keyword = message.match[1];
 
-    bot.startTyping(message, function () {
+      bot.startTyping(message, function () {
 
-      bot.reply(message, 'Buscando por ' + keyword);
+        bot.reply(message, 'Buscando por ' + keyword);
 
-      SessionService().getSearch(keyword)
-        .then(function (items) {
-          BotUI().formatList(bot, message, items, true);
-        })
-        .catch(function (err) {
-          console.log('ERROR SessionService().getToday()');
-          console.log(err);
-        });
-    });
-
+        SessionService().getSearch(keyword)
+          .then(function (items) {
+            var itemsUniqId = removeDuplicates(items, 'id');
+            BotUI().formatList(bot, message, itemsUniqId, true);
+          })
+          .catch(function (err) {
+            console.log('ERROR SessionService().getToday()');
+            console.log(err);
+          });
+      });
   });
-
 };
+
+function removeDuplicates(originalArray, prop) {
+     var newArray = [];
+     var lookupObject  = {};
+
+     for(var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+     }
+
+     for(i in lookupObject) {
+         newArray.push(lookupObject[i]);
+     }
+      return newArray;
+ }
+
