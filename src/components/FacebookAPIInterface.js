@@ -58,30 +58,40 @@ module.exports.generic_template_model = () => {
             }
         },
 
-        addElement: (title, image_url, subtitle, urlPath, isExtension, fallback_url) => {
+        addElement: (title, image_url, subtitle, type, urlPath, isExtension, fallback_url) => {
             let newElement = {
                 title: title,
                 image_url: image_url,
                 subtitle: subtitle,
-                default_action: {
-                    type: "web_url",
-                    url: urlPath,
-                    messenger_extensions: isExtension,
-                    webview_height_ratio: "tall",
-                    fallback_url: fallback_url
-                },
+                // default_action: {
+                //     type: type,
+                //     url: urlPath,
+                //     messenger_extensions: isExtension,
+                //     webview_height_ratio: "tall",
+                //     fallback_url: fallback_url
+                // },
                 buttons:[]
             }
             GenericTemplateInterface.genericTemplateMessage.attachment.payload.elements.push(newElement);
         },
 
-        addButton: (title, url) => {
-            let newButton = {
-                type:"web_url",
-                url: url,
-                title: title
+        addButton: (title, type, url_or_payload, elementIndex) => {
+            let newButton;
+            if(type === 'web_url'){
+                newButton = {
+                    type: type,
+                    url: url_or_payload,
+                    title: title
+                }
             }
-            GenericTemplateInterface.genericTemplateMessage.attachment.payload.elements[0].buttons.push(newButton);
+            else if(type === 'postback') {
+                newButton = {
+                    type: type,
+                    title: title,
+                    payload: url_or_payload
+                }
+            }
+            GenericTemplateInterface.genericTemplateMessage.attachment.payload.elements[elementIndex].buttons.push(newButton);
         }
     };
 

@@ -8,7 +8,8 @@ module.exports = function (bot, message) {
 
         about : function () {
             bot.startTyping(message, function () {
-                bot.reply(message, BotUI().aboutMessage());
+                // bot.reply(message, BotUI().aboutMessage());
+                BotUI().aboutMenu(bot, message);
             });
         },
 

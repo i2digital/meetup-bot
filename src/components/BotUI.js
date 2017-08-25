@@ -75,6 +75,28 @@ module.exports = function () {
 
       return msg;
     },
+
+    aboutMenu: function(bot, message) {
+
+      var genericTemplateInterface = require('../components/FacebookAPIInterface').generic_template_model();
+
+      genericTemplateInterface.addElement('Veja suas opções',null,null,'postback',null,false, null);
+      genericTemplateInterface.addButton('Acontecendo agora','postback', 'current', 0);
+      genericTemplateInterface.addButton('Proxima atividade','postback', 'next', 0);
+      genericTemplateInterface.addButton('Rolando hoje','postback', 'today', 0);
+
+      genericTemplateInterface.addElement('Mais opções',null,null,'postback',null,false,null);
+      genericTemplateInterface.addButton('Vai rolar amanhã','postback', 'tomorrow', 1);
+      genericTemplateInterface.addButton('Ver agenda completa no site','web_url', 'http://hacktown.com.br/programacao-oficial/', 1);
+      genericTemplateInterface.addButton('Lista de locais','postback', 'locations', 1);
+
+
+      replyMessage = genericTemplateInterface.genericTemplateMessage;
+
+      bot.reply(message, replyMessage);
+
+    },
+
     catchAllMessage: function () {
       msg = "Desculpe, ainda não estou tão inteligente assim! =(\n"
         + "Você pode me perguntar:\n"
