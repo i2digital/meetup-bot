@@ -45,6 +45,35 @@ module.exports.quick_reply = () => {
     return QuickReplyInterface;
 };
 
+module.exports.postback_button = (messageText) => {
+
+    var postbackButtonInterface = {
+
+        postBackButton : {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: messageText,
+                    buttons:[]
+                }
+            }
+        },
+
+        addButton: (title, url_or_payload) => {
+            var newButton = {
+                type: "postback",
+                title: title,
+                payload: url_or_payload //TODO payload com id para consultar detalhes de uma palestra
+            }
+            postbackButtonInterface.postBackButton.attachment.payload.buttons.push(newButton);
+        }
+
+    }
+
+    return postbackButtonInterface;
+}
+
 module.exports.generic_template_model = () => {
     var GenericTemplateInterface = {
 
@@ -88,7 +117,7 @@ module.exports.generic_template_model = () => {
                 newButton = {
                     type: type,
                     title: title,
-                    payload: url_or_payload
+                    payload: url_or_payload //TODO payload com id para consultar detalhes de uma palestra
                 }
             }
             GenericTemplateInterface.genericTemplateMessage.attachment.payload.elements[elementIndex].buttons.push(newButton);

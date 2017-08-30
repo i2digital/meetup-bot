@@ -8,7 +8,6 @@ module.exports = function (bot, message) {
 
         about : function () {
             bot.startTyping(message, function () {
-                // bot.reply(message, BotUI().aboutMessage());
                 BotUI().aboutMenu(bot, message);
             });
         },
@@ -34,7 +33,7 @@ module.exports = function (bot, message) {
 
                 SessionService().getToday()
                     .then(function (items) {
-                    BotUI().formatList(bot, message, items);
+                    BotUI().formatActivitiesList(bot, message, items);
                 })
                 .catch(function (err) {
                     console.log('ERROR SessionService().getToday()');
@@ -100,7 +99,8 @@ module.exports = function (bot, message) {
                 });
             });
         },
-
+        //TODO trocar para uma mensagem como nome do local + 'botao com ver direcoes'
+        // + botao com 'ver detalhes'
         showLocationsList : function () {
             bot.startTyping(message, function(){
                 bot.startConversation(message, listLocations);

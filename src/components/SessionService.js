@@ -8,9 +8,19 @@ module.exports = function () {
 
   SessionService = {
 
+    getDetails: function (sessionId) {
+      var options = {
+        uri: api_path + '/session/' + sessionId,
+        qs: {
+          ts: new Date()
+        },
+        json: true
+      };
+      return rp(options);
+    },
     getToday: function () {
       var options = {
-        uri: api_path + '/session/today',
+        uri: api_path + '/event/117/session/today',
         qs: {
           ts: new Date()
         },
@@ -20,7 +30,7 @@ module.exports = function () {
     },
     getTomorrow: function () {
       var options = {
-        uri: api_path + '/session/tomorrow',
+        uri: api_path + '/event/117/session/tomorrow',
         qs: {
           ts: new Date()
         },
@@ -30,7 +40,7 @@ module.exports = function () {
     },
     getCurrent: function () {
       var options = {
-        uri: api_path + '/session/current',
+        uri: api_path + '/event/117/session/current',
         qs: {
           ts: new Date()
         },
@@ -40,7 +50,7 @@ module.exports = function () {
     },
     getNext: function () {
       var options = {
-        uri: api_path + '/session/next',
+        uri: api_path + '/event/117/session/next',
         qs: {
           ts: new Date()
         },
@@ -50,7 +60,7 @@ module.exports = function () {
     },
     getSearch: function (keyword) {
       var options = {
-        uri: api_path + '/session/search',
+        uri: api_path + '/event/117/session/search',
         qs: {
           keywords: keyword,
           ts: new Date()

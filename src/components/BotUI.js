@@ -1,14 +1,65 @@
 module.exports = function () {
 
-  BotUI = {
+  const FacebookInterface = require('../components/FacebookAPIInterface');
 
-    formatList: function (bot, message, items, showDate, cb) {
+  BotUI = {
+    showDetails: function(bot, message, items) {
+      var item = items[0];
+
+      var msg = item.title + '\n';
+      msg += item.presenter + '\n\n';
+      msg += '('+ item.tags + ')\n';
+
+      bot.reply(message, msg, function () {
+
+        var dateTime = 'Data:\n';
+        dateTime += ' - ' + item.date_day + '\n';
+        dateTime += 'Hora Inicio / Hora Termino:\n';
+        dateTime += ' - ' + item.date_start + ' / ' + item.date_end;
+
+        bot.reply(message, dateTime, function(){
+
+          var description = 'Descricao:\n\n';
+          description += ' - ' + item.text;
+
+          bot.reply(message, description);
+        });
+      });
+    },
+
+    //TODO criar um novo format list para exibir palestras e palestrantes em lista com botoes
+    //o objeto msg vai virar o campo text da mensagem de texto com
+    // botao 'ver detalhes' e um botao 'detalhes do palestrante'
+    formatActivitiesList: function(bot, message, items, cb) {
 
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
           items.forEach(function (item) {
+            var sessionID = item.id;
+            msg = '* ';
+            msg += item.date_start + ' / ' + item.date_end + "\n";
+            msg += item.title + "\n";
+            msg += item.presenter;
 
+            var postBackButtonInterface = FacebookInterface.postback_button(msg);
+            postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_'+  sessionID);
+            // postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_185');
+
+            convo.say(postBackButtonInterface.postBackButton);
+            convo.next();
+          });
+        });
+      } else {
+        bot.reply(message, 'Não há atividades para este dia.');
+      }
+    },
+
+    formatList: function (bot, message, items, showDate, cb) {
+      if (items && items.length > 0) {
+        bot.startConversation(message, function (err, convo) {
+
+          items.forEach(function (item) {
             msg = '* ';
             if (showDate) {
               msg += item.date_day + ' - ';
@@ -35,7 +86,7 @@ module.exports = function () {
       }
     },
 
-    todayInWebview: function (bot, message) {
+    todayInWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
         var replyMessage = {};
 
         api_path = process.env.API_PATH;

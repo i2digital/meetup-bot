@@ -48,7 +48,7 @@ var watsonMiddleware = require('botkit-middleware-watson')({
   password: watson_password,
   workspace_id: watson_workspace_id,
   version_date: '2017-05-26',
-});
+} );
 
 
 facebookController.middleware.receive.use(watsonMiddleware.receive);
@@ -73,6 +73,8 @@ require(__dirname + "/skills/welcome.js")(facebookController, watsonMiddleware);
 require(__dirname + "/skills/onboarding.js")(facebookController, watsonMiddleware);
 
 require(__dirname + "/skills/search.js")(facebookController);
+
+require(__dirname + "/skills/viewDetails.js")(facebookController);
 
 require(__dirname + "/skills/process_all_events.js")(facebookController);
 

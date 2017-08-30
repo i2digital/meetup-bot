@@ -33,8 +33,7 @@ module.exports = function (controller, watsonMiddleware) {
         function replyUpdatedMessage () {
             watsonMiddleware.sendToWatson(bot, newMessage, function(){
                 bot.reply(newMessage, newMessage.watsonData.output.text[0], function() {
-                BotUI().aboutMenu(bot, message);
-                    // bot.reply(newMessage, BotUI().aboutMessage());
+                    BotUI().aboutMenu(bot, message);
                 });
             });
         }

@@ -22,6 +22,7 @@ module.exports = function (controller) {
                 ee.removeAllListeners();
 
             } else if (message.watsonData) {
+                console.log('ANYTHING ELSE');
                 bot.reply(message, message.watsonData.output.text[0]);
             }
         }
