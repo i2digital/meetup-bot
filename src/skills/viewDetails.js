@@ -10,7 +10,6 @@ module.exports = function (controller) {
             SessionService().getDetails(sessionId)
             .then(function (items) {
                 BotUI().showDetails(bot, message, items)
-                // bot.reply(message, 'DETAILS');
             })
             .catch(function (err) {
                 console.log('ERROR SessionService().getDetails()');
