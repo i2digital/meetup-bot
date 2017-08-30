@@ -12,8 +12,7 @@ module.exports = function (controller) {
 
         if(message.text !== 'welcome_payload') {
 
-            if(message.type === 'user_message'
-                && message.watsonData.output.action){
+            if(message.watsonData.output.action){
 
                 handlers(bot, message, ee);
 
