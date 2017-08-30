@@ -11,7 +11,7 @@ module.exports = function (controller, watsonMiddleware) {
     }
 
     function processWatsonResponse(bot, message) {
-        console.log('ONBOARDING');
+
         var newMessage = message;
         newMessage.text = 'welcome';
 
