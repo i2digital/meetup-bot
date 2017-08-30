@@ -5,7 +5,7 @@ module.exports = (userId) => {
     let options = {
         "method":"GET",
             "url": 'https://graph.facebook.com/v2.9/'+userId+'?fields=first_name&access_token='
-            +process.env.FB_PAGE_TOKEN_DEV_NICOLAU,
+            +process.env.FB_PAGE_TOKEN_DEV,
             "headers": {
             "Accept": "application/json"
         }
