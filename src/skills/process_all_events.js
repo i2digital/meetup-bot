@@ -10,7 +10,7 @@ module.exports = function (controller) {
 
     controller.hears(['(.*)'], ['message_received'], function (bot, message){
 
-        if(message.text !== 'welcome_payload'){
+        if(message.text !== 'welcome_payload') {
             console.log(message);
 
             if(message.type === 'user_message'
