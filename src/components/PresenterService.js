@@ -1,15 +1,16 @@
 var rp = require('request-promise');
+var env = require('node-env-file');
+env('./src/.env');
 
 module.exports = function () {
 
-    //TODO refactor. let API_PATH be in the ENV file.
     api_path = process.env.API_PATH;
 
-    LocationService = {
+    PresenterService = {
 
-        listLocations : function(){
+        getDetails : function(presenterID){
             var options = {
-            uri: api_path + '/event/117/locations',
+            uri: api_path + '/presenter/' + presenterID,
             qs: {
               ts: new Date()
             },
@@ -20,5 +21,5 @@ module.exports = function () {
 
     }
 
-    return LocationService;
+    return PresenterService ;
 }

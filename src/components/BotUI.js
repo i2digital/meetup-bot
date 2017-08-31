@@ -3,7 +3,17 @@ module.exports = function () {
   const FacebookInterface = require('../components/FacebookAPIInterface');
 
   BotUI = {
-    showDetails: function(bot, message, items) {
+
+    showPresenterDetails: function(bot, message, items) {
+      var item = items[0];
+      var msg = item.title + '\n\n';
+      msg += item.text;
+
+      bot.reply(message, msg);
+
+    },
+
+    showActivityDetails: function(bot, message, items) {
       var item = items[0];
 
       var msg = item.title + '\n';
@@ -23,28 +33,29 @@ module.exports = function () {
           description += ' - ' + item.text;
 
           bot.reply(message, description);
+          //INCLUIR BOTAO "MOSTRAR DIRECOES"
         });
       });
     },
 
-    //TODO criar um novo format list para exibir palestras e palestrantes em lista com botoes
-    //o objeto msg vai virar o campo text da mensagem de texto com
-    // botao 'ver detalhes' e um botao 'detalhes do palestrante'
     formatActivitiesList: function(bot, message, items, cb) {
 
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
           items.forEach(function (item) {
+
             var sessionID = item.id;
+            var presenterID = item.presenter_id;
+
             msg = '* ';
             msg += item.date_start + ' / ' + item.date_end + "\n";
             msg += item.title + "\n";
             msg += item.presenter;
 
             var postBackButtonInterface = FacebookInterface.postback_button(msg);
-            postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_'+  sessionID);
-            // postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_185');
+            postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' +  sessionID);
+            postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_' + presenterID);
 
             convo.say(postBackButtonInterface.postBackButton);
             convo.next();
@@ -55,43 +66,43 @@ module.exports = function () {
       }
     },
 
-    formatList: function (bot, message, items, showDate, cb) {
-      if (items && items.length > 0) {
-        bot.startConversation(message, function (err, convo) {
+    // formatList: function (bot, message, items, showDate, cb) {
+    //   if (items && items.length > 0) {
+    //     bot.startConversation(message, function (err, convo) {
 
-          items.forEach(function (item) {
-            msg = '* ';
-            if (showDate) {
-              msg += item.date_day + ' - ';
-            }
-            msg += item.date_start + '/' + item.date_end + "\n";
-            if(item.tags){
-              msg += item.title + ' (' + item.tags + ")\n";
-            }else {
-              msg += item.title
-            }
-            if (item.presenter.length > 0) {
-              msg += item.presenter + "\n";
-            }
-            if(item.text.length > 0) {
-              msg += item.text + "\n";
-            }
-            msg += "\n";
-            convo.say(msg);
-            convo.next();
-          });
-        });
-      } else {
-        bot.reply(message, 'Não há atividades para este dia.');
-      }
-    },
+    //       items.forEach(function (item) {
+    //         msg = '* ';
+    //         if (showDate) {
+    //           msg += item.date_day + ' - ';
+    //         }
+    //         msg += item.date_start + '/' + item.date_end + "\n";
+    //         if(item.tags){
+    //           msg += item.title + ' (' + item.tags + ")\n";
+    //         }else {
+    //           msg += item.title
+    //         }
+    //         if (item.presenter.length > 0) {
+    //           msg += item.presenter + "\n";
+    //         }
+    //         if(item.text.length > 0) {
+    //           msg += item.text + "\n";
+    //         }
+    //         msg += "\n";
+    //         convo.say(msg);
+    //         convo.next();
+    //       });
+    //     });
+    //   } else {
+    //     bot.reply(message, 'Não há atividades para este dia.');
+    //   }
+    // },
 
     todayInWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
         var replyMessage = {};
 
         api_path = process.env.API_PATH;
 
-        var genericTemplateInterface = require('../components/FacebookAPIInterface').generic_template_model();
+        var genericTemplateInterface = FacebookInterface.generic_template_model();
 
 
         genericTemplateInterface.addElement('Tip Talks',
@@ -129,7 +140,7 @@ module.exports = function () {
 
     aboutMenu: function(bot, message) {
 
-      var genericTemplateInterface = require('../components/FacebookAPIInterface').generic_template_model();
+      var genericTemplateInterface = FacebookInterface.generic_template_model();
 
       genericTemplateInterface.addElement('Veja suas opções',null,null,'postback',null,false, null);
       genericTemplateInterface.addButton('Acontecendo agora','postback', 'current', 0);
@@ -148,19 +159,19 @@ module.exports = function () {
 
     },
 
-    catchAllMessage: function () {
-      msg = "Desculpe, ainda não estou tão inteligente assim! =(\n"
-        + "Você pode me perguntar:\n"
-        + "* agora - atividades acontecendo agora.\n"
-        + "* próxima - atividades que acontecerão em seguida.\n"
-        + "* hoje - atividades que ainda vão acontecer hoje.\n"
-        + "* amanhã - atividades de amanhã.\n"
-        + "* buscar PALAVRA-CHAVE  - buscar atividades por palavra-chave.\n"
-        + "* programação - visualizar a programação completa do evento.\n"
-        + "* ajuda - exibir estas opções novamente."
+    // catchAllMessage: function () {
+    //   msg = "Desculpe, ainda não estou tão inteligente assim! =(\n"
+    //     + "Você pode me perguntar:\n"
+    //     + "* agora - atividades acontecendo agora.\n"
+    //     + "* próxima - atividades que acontecerão em seguida.\n"
+    //     + "* hoje - atividades que ainda vão acontecer hoje.\n"
+    //     + "* amanhã - atividades de amanhã.\n"
+    //     + "* buscar PALAVRA-CHAVE  - buscar atividades por palavra-chave.\n"
+    //     + "* programação - visualizar a programação completa do evento.\n"
+    //     + "* ajuda - exibir estas opções novamente."
 
-      return msg;
-    }
+    //   return msg;
+    // }
 
   };
 

@@ -110,6 +110,7 @@ module.exports = function (bot, message) {
                    .then(iterateThroughLocations);
 
                    function iterateThroughLocations (items) {
+
                         if(items.length > 0) {
                             items.forEach((item) => {
                                 if(item.address){

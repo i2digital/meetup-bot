@@ -23,7 +23,11 @@ module.exports = function (controller) {
 
             } else if (message.watsonData) {
                 console.log('ANYTHING ELSE');
-                bot.reply(message, message.watsonData.output.text[0]);
+                bot.reply(message, message.watsonData.output.text[0], function(){
+                    bot.reply(message, 'Ou entao, pode tentar alguma das opcoes abaixo! ;)', function(){
+                        BotUI().aboutMenu(bot, message);
+                    });
+                });
             }
         }
     });
