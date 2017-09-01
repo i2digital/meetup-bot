@@ -116,36 +116,7 @@ module.exports = function () {
       }
     },
 
-    // formatList: function (bot, message, items, showDate, cb) {
-    //   if (items && items.length > 0) {
-    //     bot.startConversation(message, function (err, convo) {
 
-    //       items.forEach(function (item) {
-    //         msg = '* ';
-    //         if (showDate) {
-    //           msg += item.date_day + ' - ';
-    //         }
-    //         msg += item.date_start + '/' + item.date_end + "\n";
-    //         if(item.tags){
-    //           msg += item.title + ' (' + item.tags + ")\n";
-    //         }else {
-    //           msg += item.title
-    //         }
-    //         if (item.presenter.length > 0) {
-    //           msg += item.presenter + "\n";
-    //         }
-    //         if(item.text.length > 0) {
-    //           msg += item.text + "\n";
-    //         }
-    //         msg += "\n";
-    //         convo.say(msg);
-    //         convo.next();
-    //       });
-    //     });
-    //   } else {
-    //     bot.reply(message, 'Não há atividades para este dia.');
-    //   }
-    // },
 
     scheduleWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
         var replyMessage = {};
@@ -171,20 +142,6 @@ module.exports = function () {
         return msg;
     },
 
-    aboutMessage: function () {
-
-      msg = "Você pode me perguntar:\n\n"
-        + "* agora - atividades acontecendo agora.\n"
-        + "* próxima - atividades que acontecerão em seguida.\n"
-        + "* hoje - atividades que ainda vão acontecer hoje.\n"
-        + "* amanhã - atividades de amanhã.\n"
-        + "* buscar PALAVRA-CHAVE  - buscar atividades por palavra-chave.\n"
-        + "* programação - visualizar a programação completa do evento.\n"
-        + "* ajuda - exibir estas opções novamente."
-
-      return msg;
-    },
-
     aboutMenu: function(bot, message) {
 
       var genericTemplateInterface = FacebookInterface.generic_template_model();
@@ -205,20 +162,6 @@ module.exports = function () {
       bot.reply(message, replyMessage);
 
     },
-
-    // catchAllMessage: function () {
-    //   msg = "Desculpe, ainda não estou tão inteligente assim! =(\n"
-    //     + "Você pode me perguntar:\n"
-    //     + "* agora - atividades acontecendo agora.\n"
-    //     + "* próxima - atividades que acontecerão em seguida.\n"
-    //     + "* hoje - atividades que ainda vão acontecer hoje.\n"
-    //     + "* amanhã - atividades de amanhã.\n"
-    //     + "* buscar PALAVRA-CHAVE  - buscar atividades por palavra-chave.\n"
-    //     + "* programação - visualizar a programação completa do evento.\n"
-    //     + "* ajuda - exibir estas opções novamente."
-
-    //   return msg;
-    // }
 
   };
 
