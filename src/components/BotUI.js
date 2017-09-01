@@ -42,6 +42,8 @@ module.exports = function () {
       var msg = item.title + '\n\n';
       msg += item.text;
 
+
+
       bot.reply(message, msg);
 
     },
@@ -145,21 +147,18 @@ module.exports = function () {
     //   }
     // },
 
-    todayInWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
+    scheduleWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
         var replyMessage = {};
 
         api_path = process.env.API_PATH;
 
         var genericTemplateInterface = FacebookInterface.generic_template_model();
 
-
-        genericTemplateInterface.addElement('Tip Talks',
-                                                                        'https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAVtAAAAJDY5MDcxNWM3LTA5NTktNGY5Ny1hMGMzLTZiNGRjM2IyYThlNA.png',
-                                                                        'Here you become aware of every talks in TIP 2017',
-                                                                        'http://dev-tip-2017-bot.pantheonsite.io/view/session/today',//CORRIGIR URL
+        genericTemplateInterface.addElement('Programação oficial Hack Town 2017',
+                                                                        'https://www.conciergebrasil.org/wp-content/uploads/2017/04/a4f83f_30f516344e1643769ed25836d971fb2c-mv2.png',
                                                                         false,
                                                                         undefined);
-        genericTemplateInterface.addButton('Exibir cronograma!', 'http://dev-tip-2017-bot.pantheonsite.io/view/session/today');
+        genericTemplateInterface.addButton('Exibir programação!', 'web_url','http://hacktown.com.br/programacao-oficial/', 0);
 
         replyMessage = genericTemplateInterface.genericTemplateMessage;
 

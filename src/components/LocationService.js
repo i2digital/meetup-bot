@@ -2,7 +2,6 @@ var rp = require('request-promise');
 
 module.exports = function () {
 
-    //TODO refactor. let API_PATH be in the ENV file.
     api_path = process.env.API_PATH;
 
     LocationService = {

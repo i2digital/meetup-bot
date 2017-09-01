@@ -43,7 +43,7 @@ module.exports = function (bot, message, eventEmitter) {
         },
 
          hearShowWebview : function () {
-            eventEmitter.on('show_webview', function() {
+            eventEmitter.on('schedule_webview', function() {
                 SkillSet.showTodayWebview();
             });
         },
@@ -51,6 +51,18 @@ module.exports = function (bot, message, eventEmitter) {
         hearShowLocations : function () {
             eventEmitter.on('location', function() {
                 SkillSet.showLocationsList();
+            });
+        },
+
+        hearSpecificLocation : function () {
+            eventEmitter.on('spec_location', function() {
+                console.log('SPECIFIC LOCATION');
+            });
+        },
+
+        hearSpecificLocation : function () {
+            eventEmitter.on('locate_activitie', function() {
+                console.log('LOCATE ACTIVITIE');
             });
         },
    }
@@ -63,4 +75,5 @@ module.exports = function (bot, message, eventEmitter) {
    eventHandlers.hearTomorrow();
    eventHandlers.hearWelcome();
    eventHandlers.hearShowLocations();
+   eventHandlers.hearSpecificLocation();
 }

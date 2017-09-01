@@ -16,7 +16,7 @@ module.exports = function (bot, message) {
              bot.startTyping(message, function () {
                   SessionService().getToday()
                     .then(function (items) {
-                      BotUI().todayInWebview(bot, message);
+                      BotUI().scheduleWebview(bot, message);
                     })
                     .catch(function (err) {
                       console.log('ERROR SessionService().getToday()');
