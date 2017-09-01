@@ -10,6 +10,10 @@ module.exports = function (controller) {
 
     controller.hears(['(.*)'], ['message_received'], function (bot, message){
 
+        console.log(message.watsonData);
+
+        var text = message.watsonData.input.text;
+
         if(message.text !== 'welcome_payload') {
 
             if(message.watsonData.output.action){

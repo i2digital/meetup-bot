@@ -1,9 +1,42 @@
-module.exports = function () {
+const FacebookInterface = require('../components/FacebookAPIInterface');
+const GoogleMapsService = require('../components/GoogleMapsService.js');
 
-  const FacebookInterface = require('../components/FacebookAPIInterface');
+module.exports = function () {
 
   BotUI = {
 
+    showActivityLocation: function(bot, message, item) {
+
+      if(item.title && item.latitude && item.longitude) {
+
+        var title = item.title;
+        var lat = item.latitude.match(/[^,]*/i)[0];
+        var long = item.longitude.match(/[^,]*/i)[0];
+        var address;
+
+        if(item.address) {
+          address = item.address;
+        } else {
+          address = '';
+        }
+
+        var locationMessage = FacebookInterface.staticMapLocationDisplay(title, lat, long, address);
+
+        bot.reply(message, locationMessage);
+      } else {
+        bot.reply(message, 'Nao consegui encontrar as coordenadas para o local desejado! :(');
+      }
+
+    },
+
+    //TODO display button in the locations list with a postback to
+    //the location map, and Sessions happening there
+    showLocationDetails: function(bot, message, items) {
+
+    },
+
+    //TODO display presenter image and details in a template
+    //button with Presenter Sessions to display the speakings the presenter will give
     showPresenterDetails: function(bot, message, items) {
       var item = items[0];
       var msg = item.title + '\n\n';
@@ -15,6 +48,8 @@ module.exports = function () {
 
     showActivityDetails: function(bot, message, items) {
       var item = items[0];
+
+      console.log(item);
 
       var msg = item.title + '\n';
       msg += item.presenter + '\n\n';
@@ -32,8 +67,19 @@ module.exports = function () {
           var description = 'Descricao:\n\n';
           description += ' - ' + item.text;
 
-          bot.reply(message, description);
-          //INCLUIR BOTAO "MOSTRAR DIRECOES"
+          bot.reply(message, description, function() {
+
+            if(item.location_address.length > 0){
+              var text = 'Endereco' + item.location_address;
+            }else{
+              var text = 'Veja como chegar:';
+            }
+            var postBackButtonInterface = FacebookInterface.postback_button(text);
+            postBackButtonInterface.addButton('Ver Direcoes', 'location_id_'+ item.location_id);
+            var response = postBackButtonInterface.postBackButton;
+
+            bot.reply(message, response);
+          });
         });
       });
     },
@@ -57,7 +103,9 @@ module.exports = function () {
             postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' +  sessionID);
             postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_' + presenterID);
 
-            convo.say(postBackButtonInterface.postBackButton);
+            var response = postBackButtonInterface.postBackButton;
+
+            convo.say(response);
             convo.next();
           });
         });

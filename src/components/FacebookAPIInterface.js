@@ -22,6 +22,27 @@ module.exports.webview_button = (textMessage, urlPath, buttonTitle) =>{
     return webviewInterface;
 };
 
+module.exports.staticMapLocationDisplay = function(title, lat, long, address){
+    var locationMessage = {
+      "attachment": {
+          "type": "template",
+          "payload": {
+              "template_type": "generic",
+              "elements": {
+                  "element": {
+                      "title": title,
+                      "subtitle":address,
+                      "image_url": "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center="+lat+","+long+"&zoom=16&markers="+lat+","+long,
+                      // "item_url": "http:\/\/maps.apple.com\/maps?q="+lat+","+long+"&z=16"
+                  }
+              }
+          }
+      }
+    }
+
+    return locationMessage;
+}
+
 module.exports.quick_reply = () => {
     var QuickReplyInterface = {
         quickReplyMessage : {
@@ -29,7 +50,7 @@ module.exports.quick_reply = () => {
             quick_replies: [],
         },
         addQuickReply: (content, title, payload) => {
-            quick_reply = {
+            var quick_reply = {
                 content_type: content,
                 title: title,
                 payload: payload,

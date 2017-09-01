@@ -124,6 +124,10 @@ module.exports = function (bot, message) {
                     }
                 }
             });
+        },
+
+        showSpecificLocation: function () {
+
         }
 
     }

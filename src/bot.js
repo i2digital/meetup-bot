@@ -76,6 +76,8 @@ require(__dirname + "/skills/search.js")(facebookController);
 
 require(__dirname + "/skills/viewDetails.js")(facebookController);
 
+require(__dirname + "/skills/latLongToLocation.js")(facebookController);
+
 require(__dirname + "/skills/process_all_events.js")(facebookController);
 
 // require(__dirname + "/skills/onboarding.js")(controller, watsonMiddleware);

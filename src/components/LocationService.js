@@ -18,6 +18,17 @@ module.exports = function () {
           return rp(options);
         },
 
+        getLocationById : function (locationId) {
+            var options = {
+            uri: api_path + '/location/' + locationId,
+            qs: {
+              ts: new Date()
+            },
+            json: true
+          };
+          return rp(options);
+        }
+
     }
 
     return LocationService;
