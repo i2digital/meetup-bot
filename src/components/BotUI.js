@@ -5,6 +5,33 @@ module.exports = function () {
 
   BotUI = {
 
+    showActivitiesListForPresenter: function(bot, message, items){
+      if (items && items.length > 0) {
+        bot.startConversation(message, function (err, convo) {
+
+          items.forEach(function (item) {
+
+            var sessionID = item.id;
+
+            msg = '* ';
+            msg += item.date_start + ' / ' + item.date_end + "\n";
+            msg += item.title + "\n";
+            msg += item.presenter;
+
+            var postBackButtonInterface = FacebookInterface.postback_button(msg);
+            postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' +  sessionID);
+
+            var response = postBackButtonInterface.postBackButton;
+
+            convo.say(response);
+            convo.next();
+          });
+        });
+      } else {
+        bot.reply(message, 'Não há atividades para este dia.');
+      }
+    },
+
     showActivityLocation: function(bot, message, item) {
 
       if(item.title && item.latitude && item.longitude) {
@@ -41,10 +68,19 @@ module.exports = function () {
       var item = items[0];
       var msg = item.title + '\n\n';
       msg += item.text;
+      var presenterPic = FacebookInterface.imageMessage(item.image);
 
+      bot.reply(message, presenterPic, function(){
+        bot.reply(message, msg, function(){
+          var text = 'Aqui voce pode ver todas as atividades deste palestrante!';
+          var postBackButtonInterface = FacebookInterface.postback_button(text);
+          postBackButtonInterface.addButton('Atividades', 'presenter_sessions_' + item.id);
 
+          var viewSessionsButton = postBackButtonInterface.postBackButton;
 
-      bot.reply(message, msg);
+          bot.reply(message, viewSessionsButton);
+        });
+      });
 
     },
 

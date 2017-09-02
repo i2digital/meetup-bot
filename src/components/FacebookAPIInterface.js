@@ -1,4 +1,17 @@
 'use strict';
+
+module.exports.imageMessage = (imageUrl) => {
+    var imageMessage = {
+    "attachment":{
+      "type":"image",
+      "payload":{
+        "url": imageUrl
+      }
+    }
+  }
+  return imageMessage;
+};
+
 module.exports.webview_button = (textMessage, urlPath, buttonTitle) =>{
     let webviewInterface = {
         webviewMessage: {
@@ -85,7 +98,7 @@ module.exports.postback_button = (messageText) => {
             var newButton = {
                 type: "postback",
                 title: title,
-                payload: url_or_payload //TODO payload com id para consultar detalhes de uma palestra
+                payload: url_or_payload
             }
             postbackButtonInterface.postBackButton.attachment.payload.buttons.push(newButton);
         }

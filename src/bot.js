@@ -9,6 +9,10 @@ var os = require('os'); //puxa o módulo os, responsável por realizar operaçõ
 var fb_page_token;
 var watson_workspace_id;
 
+/*
+  ENVIRONMENT SETUP
+*/
+
 if (process.env.BOT_ENV) {
 
   watson_workspace_id = process.env.WATSON_CONVERSATION_WORKSPACEID_PROD;
@@ -30,6 +34,10 @@ if (process.env.BOT_ENV) {
   }
 }
 
+/*
+  FACEBOOK BOT SETUP
+*/
+
 var facebookController = Botkit.facebookbot({
   debug: true,
   access_token: fb_page_token,
@@ -39,6 +47,9 @@ var facebookController = Botkit.facebookbot({
   // require_delivery: true
 });
 
+/*
+  WATSON MIDDLEWARE SETUP
+*/
 
 var watson_username = process.env.WATSON_CONVERSATION_USERNAME;
 var watson_password = process.env.WATSON_CONVERSATION_PASSWORD;
@@ -56,6 +67,10 @@ facebookController.middleware.receive.use(watsonMiddleware.receive);
 
 var webserver = require(__dirname + '/components/express_webserver.js')(facebookController);
 
+/*
+  LOAD INITIAL COMPONENTS
+*/
+
 require(__dirname + '/components/subscribe_events.js')(facebookController);
 
 require(__dirname + '/components/thread_settings.js')(facebookController);
@@ -63,20 +78,23 @@ require(__dirname + '/components/thread_settings.js')(facebookController);
 require(__dirname + '/components/plugin_dashbot.js')(facebookController);
 
 
+/*
+  LOAD SKILLS
+*/
+
+require(__dirname + "/skills/onboarding.js")(facebookController, watsonMiddleware);
 
 require(__dirname + "/skills/greeting.js")(facebookController, watsonMiddleware);
 
 require(__dirname + "/skills/goodbye.js")(facebookController, watsonMiddleware);
-
-require(__dirname + "/skills/welcome.js")(facebookController, watsonMiddleware);
-
-require(__dirname + "/skills/onboarding.js")(facebookController, watsonMiddleware);
 
 require(__dirname + "/skills/search.js")(facebookController);
 
 require(__dirname + "/skills/viewDetails.js")(facebookController);
 
 require(__dirname + "/skills/latLongToLocation.js")(facebookController);
+
+require(__dirname + "/skills/viewPresenterSessions.js")(facebookController);
 
 require(__dirname + "/skills/process_all_events.js")(facebookController);
 

@@ -1,5 +1,6 @@
 var SessionService = require('../components/SessionService');
 var BotUI = require('../components/BotUI');
+var rmDups = require('../utils/removeDuplicates');
 
 module.exports = function (controller) {
 
@@ -13,7 +14,7 @@ module.exports = function (controller) {
 
         SessionService().getSearch(keyword)
           .then(function (items) {
-            var itemsNoDuplicates = removeDuplicates(items, 'id');
+            var itemsNoDuplicates = rmDups(items, 'id');
             BotUI().formatActivitiesList(bot, message, itemsNoDuplicates);
           })
           .catch(function (err) {
@@ -23,18 +24,4 @@ module.exports = function (controller) {
       });
   });
 };
-
-function removeDuplicates(originalArray, prop) {
-     var newArray = [];
-     var lookupObject  = {};
-
-     for(var i in originalArray) {
-        lookupObject[originalArray[i][prop]] = originalArray[i];
-     }
-
-     for(i in lookupObject) {
-         newArray.push(lookupObject[i]);
-     }
-      return newArray;
- }
 

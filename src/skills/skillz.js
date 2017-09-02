@@ -113,12 +113,12 @@ module.exports = function (bot, message) {
 
                         if(items.length > 0) {
                             items.forEach((item) => {
-                                if(item.address){
+                                // if(item.address){
                                     msg = item.title + ':\n';
                                     msg += item.address;
                                     convo.say(msg);
                                     convo.next();
-                                }
+                                // }
                             });
                         }
                     }

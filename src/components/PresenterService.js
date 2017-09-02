@@ -19,6 +19,17 @@ module.exports = function () {
           return rp(options);
         },
 
+        getPresenterSessions: function(presenterID) {
+          var options = {
+            uri: api_path + '/presenter/' + presenterID + '/sessions',
+            qs: {
+              ts: new Date()
+            },
+            json: true
+          };
+          return rp(options);
+        },
+
     }
 
     return PresenterService ;
