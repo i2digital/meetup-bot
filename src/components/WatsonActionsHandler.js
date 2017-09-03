@@ -1,6 +1,6 @@
 module.exports = function (bot, message, eventEmitter) {
 
-    let SkillSet = require('../skills/skillz.js')(bot, message);
+    let SkillSet = require('../skills/SkillSet.js')(bot, message);
 
     let eventHandlers = {
 
