@@ -11,6 +11,12 @@ var watson_workspace_id;
 /**
  * ENVIRONMENT SETUP
  */
+
+if (!process.env.MONGODB_URI) {
+  console.log('Error: Need MongoDB');
+  process.exit(1);
+}
+
 if (process.env.BOT_ENV) {
 
   watson_workspace_id = process.env.WATSON_CONVERSATION_WORKSPACEID_PROD;
@@ -32,11 +38,16 @@ if (process.env.BOT_ENV) {
   }
 }
 
+var mongoStorage = require('botkit-storage-mongo')({
+  mongoUri: process.env.MONGODB_URI
+});
+
 /**
  * FACEBOOK BOT SETUP
  */
 var controller = Botkit.facebookbot({
   debug: true,
+  storage: mongoStorage,
   access_token: fb_page_token,
   verify_token: process.env.FB_VERIFY_TOKEN,
   bot_type: 'facebook',
