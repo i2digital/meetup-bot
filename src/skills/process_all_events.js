@@ -1,42 +1,32 @@
-let SessionService = require('../components/SessionService');
-let BotUI = require('../components/BotUI');
+var BotUI = require('../components/BotUI');
+var SessionService = require('../components/SessionService');
+var LocationService = require('../components/LocationService');
 
-let events = require('events');
-let ee = new events.EventEmitter();
+module.exports = function (controller, watsonMiddleware) {
 
-let handlers = require('../components/WatsonActionsHandler.js');
+  controller.hears(['(.*)'], ['message_received'], function (bot, message) {
 
-module.exports = function (controller) {
+    if (message.text !== 'welcome_payload') {
 
-    controller.hears(['(.*)'], ['message_received'], function (bot, message){
+      if (message.watsonData.output.action) {
 
-        console.log(message);
+        var actionEvent = message.watsonData.output.action;
+        console.info('WATSON ACTION EVENT: ' + actionEvent);
+        controller.trigger(actionEvent, [bot, message]);
 
-        var text = message.watsonData.input.text;
+      }
+      else if (message.watsonData && message.watsonData.output.nodes_visited[0] !== 'Em outros casos') {
+        bot.reply(message, message.watsonData.output.text[0]);
+      }
+      else if (message.watsonData.output.nodes_visited[0] == 'Em outros casos') {
+        console.log('>>> ANYTHING ELSE');
+        bot.reply(message, message.watsonData.output.text[0], function () {
+          bot.reply(message, 'Ou entao, pode tentar alguma das opcoes abaixo! ;)', function () {
+            BotUI().aboutMenu(bot, message);
+          });
+        });
+      }
+    }
+  });
 
-        if(message.text !== 'welcome_payload') {
-
-            if(message.watsonData.output.action){
-
-                handlers(bot, message, ee);
-
-                let actionEvent = message.watsonData.output.action;
-                ee.emit(actionEvent);
-
-                ee.removeAllListeners();
-
-            }
-            else if (message.watsonData && message.watsonData.output.nodes_visited[0] !== 'Em outros casos'){
-                bot.reply(message, message.watsonData.output.text[0]);
-            }
-            else if (message.watsonData.output.nodes_visited[0] == 'Em outros casos') {
-                console.log('ANYTHING ELSE');
-                bot.reply(message, message.watsonData.output.text[0], function(){
-                    bot.reply(message, 'Ou entao, pode tentar alguma das opcoes abaixo! ;)', function(){
-                        BotUI().aboutMenu(bot, message);
-                    });
-                });
-            }
-        }
-    });
-}
+};
