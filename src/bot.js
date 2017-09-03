@@ -77,27 +77,7 @@ require(__dirname + '/components/thread_settings.js')(facebookController);
 
 require(__dirname + '/components/plugin_dashbot.js')(facebookController);
 
-
-/*
-  LOAD SKILLS
-*/
-
-require(__dirname + "/skills/onboarding.js")(facebookController, watsonMiddleware);
-
-require(__dirname + "/skills/greeting.js")(facebookController, watsonMiddleware);
-
-require(__dirname + "/skills/goodbye.js")(facebookController, watsonMiddleware);
-
-require(__dirname + "/skills/search.js")(facebookController);
-
-require(__dirname + "/skills/viewDetails.js")(facebookController);
-
-require(__dirname + "/skills/latLongToLocation.js")(facebookController);
-
-require(__dirname + "/skills/viewPresenterSessions.js")(facebookController);
-
-require(__dirname + "/skills/process_all_events.js")(facebookController);
-
-// require(__dirname + "/skills/onboarding.js")(controller, watsonMiddleware);
-
-
+var normalizedPath = require("path").join(__dirname, "skills");
+require("fs").readdirSync(normalizedPath).forEach(function (file) {
+  require("./skills/" + file)(controller, watsonMiddleware);
+});
