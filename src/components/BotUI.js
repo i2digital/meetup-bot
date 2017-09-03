@@ -62,8 +62,6 @@ module.exports = function () {
 
     },
 
-    //TODO display presenter image and details in a template
-    //button with Presenter Sessions to display the speakings the presenter will give
     showPresenterDetails: function(bot, message, items) {
       var item = items[0];
       var msg = item.title + '\n\n';
