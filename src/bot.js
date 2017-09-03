@@ -17,6 +17,8 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
+
+
 if (process.env.BOT_ENV) {
 
   watson_workspace_id = process.env.WATSON_CONVERSATION_WORKSPACEID_PROD;
