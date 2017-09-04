@@ -2,7 +2,7 @@ var request = require('request');
 
 module.exports = function (userId) {
 
-  let options = {
+  var options = {
     "method": "GET",
     "url": 'https://graph.facebook.com/v2.10/' + userId + '?fields=first_name,last_name&access_token='
     + process.env.FB_PAGE_TOKEN,
@@ -11,8 +11,7 @@ module.exports = function (userId) {
     }
   };
 
-  var returnBody = {
-
+  return {
     req: function (cb) {
       request(options, function (err, response) {
         var body = response.body;
@@ -21,6 +20,4 @@ module.exports = function (userId) {
       });
     }
   };
-
-  return returnBody;
 };

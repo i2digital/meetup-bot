@@ -1,9 +1,9 @@
-var BotUI = require('../components/BotUI');
-var SessionService = require('../components/SessionService');
+var BotUI = require('../UI/BotUI');
+var SessionService = require('../services/SessionService');
 
 module.exports = function (controller, watsonMiddleware) {
 
-  controller.on('location', function () {
+  controller.on('location', function (bot, message) {
     bot.startTyping(message, function () {
       bot.startConversation(message, listLocations);
 

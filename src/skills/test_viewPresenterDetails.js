@@ -1,6 +1,6 @@
-const SessionService = require('../components/SessionService');
-const PresenterService = require('../components/PresenterService');
-const BotUI = require('../components/BotUI');
+const SessionService = require('../services/SessionService');
+const PresenterService = require('../services/PresenterService');
+const BotUI = require('../UI/BotUI');
 
 module.exports = function (controller) {
 

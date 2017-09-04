@@ -1,9 +1,9 @@
-var BotUI = require('../components/BotUI');
-var SessionService = require('../components/SessionService');
+var BotUI = require('../UI/BotUI');
+var SessionService = require('../services/SessionService');
 
 module.exports = function (controller, watsonMiddleware) {
 
-  controller.on('tomorrow', function () {
+  controller.on('tomorrow', function (bot, message) {
     bot.startTyping(message, function () {
 
       date = new Date();

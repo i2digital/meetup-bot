@@ -1,5 +1,5 @@
-var SessionService = require('../components/SessionService');
-var BotUI = require('../components/BotUI');
+var BotUI = require('../UI/BotUI');
+var SessionService = require('../services/SessionService');
 var rmDups = require('../utils/removeDuplicates');
 
 module.exports = function (controller) {

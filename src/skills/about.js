@@ -1,4 +1,4 @@
-var BotUI = require('../components/BotUI');
+var BotUI = require('../UI/BotUI');
 
 module.exports = function (controller, watsonMiddleware) {
 

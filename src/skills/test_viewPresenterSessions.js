@@ -1,5 +1,5 @@
-const PresenterService = require('../components/PresenterService');
-const BotUI = require('../components/BotUI');
+const PresenterService = require('../services/PresenterService');
+const BotUI = require('../UI/BotUI');
 var rmDups = require('../utils/removeDuplicates');
 
 module.exports = function(controller) {

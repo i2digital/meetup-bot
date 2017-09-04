@@ -1,9 +1,9 @@
-let userProfile = require('../components/UserProfileAPIInterface');
-let BotUI = require('../components/BotUI');
+var BotUI = require('../UI/BotUI');
+var FacebookUser = require('../services/FacebookUser');
 
 module.exports = function (controller, watsonMiddleware) {
 
-  var BotUserService = require('../components/BotUserService.js')(controller);
+  var BotUserService = require('../services/BotUserService.js')(controller);
 
   controller.hears(['welcome_payload'], ['facebook_postback'], function (bot, message) {
 
@@ -20,7 +20,7 @@ module.exports = function (controller, watsonMiddleware) {
       var newMessage = message;
       newMessage.text = 'welcome';
 
-      userProfile(message.user).req(function (err, body) {
+      FacebookUser(message.user).req(function (err, body) {
         BotUser.data = JSON.parse(body);
         var firstName = BotUser.data.first_name;
         watsonMiddleware.updateContext(message.user,

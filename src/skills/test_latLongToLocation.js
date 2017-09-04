@@ -1,5 +1,5 @@
-const BotUI = require('../components/BotUI.js');
-const LocationService = require('../components/LocationService.js');
+const BotUI = require('../UI/BotUI');
+const LocationService = require('../services/LocationService');
 
 module.exports = function(controller) {
 
