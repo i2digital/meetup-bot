@@ -1,8 +1,6 @@
 var BotUI = require('../UI/BotUI');
-var SessionService = require('../services/SessionService');
-var LocationService = require('../services/LocationService');
 
-module.exports = function (controller, watsonMiddleware) {
+module.exports = function (controller) {
 
   controller.hears(['(.*)'], ['message_received'], function (bot, message) {
 
