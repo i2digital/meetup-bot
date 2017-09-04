@@ -1,8 +1,7 @@
 module.exports = function (controller) {
 
-  controller.api.messenger_profile.greeting("Hi! I'm a bot from TIP 2017 class. I can help you have info about the program.");
+  controller.api.messenger_profile.greeting("Olá! Eu sou o chatbot do Hack Town e vou te ajudar a navegar pelo evento! Vamos começar?");
   controller.api.messenger_profile.get_started('welcome_payload');
-  controller.api.messenger_profile.domain_whitelist(['http://dev-tip-2017-bot.pantheonsite.io/view/session/today']);
 
   menu_call_to_actions = [
     {
