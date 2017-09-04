@@ -151,8 +151,6 @@ module.exports = function () {
     scheduleWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
       var replyMessage = {};
 
-      api_path = process.env.API_PATH;
-
       var genericTemplateInterface = FacebookUI.generic_template_model();
 
       genericTemplateInterface.addElement('Programação oficial Hack Town 2017',
