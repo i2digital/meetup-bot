@@ -1,10 +1,8 @@
 var rp = require('request-promise');
-var env = require('node-env-file');
-env('./src/.env');
 
 module.exports = function () {
 
-  api_path = process.env.API_PATH;
+  api_path = process.env.MEETUPBOT_API_URL;
 
   SessionService = {
 
