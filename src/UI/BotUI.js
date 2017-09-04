@@ -57,8 +57,37 @@ module.exports = function () {
 
     //TODO display button in the locations list with a postback to
     //the location map, and Sessions happening there
-    showLocationDetails: function (bot, message, items) {
+    showLocationSessions: function (bot, message, items) {
+      if (items && items.length > 0) {
+          bot.startConversation(message, function (err, convo) {
 
+            items.forEach(function(item) {
+              var item = items[0];
+              var msg;
+              var sessionID = item.id;
+
+              msg = item.title + ':\n';
+
+              if(item.presenter) {
+                msg += item.presenter + '\n';
+              }
+
+              if(item.date_day && item.date_start && item.date_end){
+                msg += item.date_day + ' - ';
+                msg += item.date_start + ' / ' + item.date_end;
+              }
+
+              var postBackButtonInterface = FacebookUI.postback_button(msg);
+              postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' + sessionID);
+
+              var response = postBackButtonInterface.postBackButton;
+              convo.say(response);
+              convo.next();
+            });
+          });
+        } else {
+          bot.reply(message, 'Não existem localizações para serem exibidas.')
+        }
     },
 
     showPresenterDetails: function(bot, message, items) {
@@ -84,8 +113,6 @@ module.exports = function () {
 
     showActivityDetails: function (bot, message, items) {
       var item = items[0];
-
-      console.log(item);
 
       var msg = item.title + '\n';
       msg += item.presenter + '\n\n';
@@ -120,12 +147,40 @@ module.exports = function () {
       });
     },
 
+     formatLocationsList: function (bot, message, items) {
+        if (items && items.length > 0) {
+          bot.startConversation(message, function (err, convo) {
+
+            items.forEach(function(item) {
+              var item = items[0];
+              var msg;
+              var locationID = item.id;
+
+              msg = item.title + ':\n';
+
+              if(item.address) {
+                msg += item.address;
+              }
+
+              var postBackButtonInterface = FacebookUI.postback_button(msg);
+              postBackButtonInterface.addButton('Atividades do Local', 'location_sessions_' + locationID);
+
+              var response = postBackButtonInterface.postBackButton;
+              convo.say(response);
+              convo.next();
+            });
+          });
+        } else {
+          bot.reply(message, 'Não existem localizações para serem exibidas.')
+        }
+      },
+
     formatActivitiesList: function (bot, message, items, cb) {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
           items.forEach(function (item) {
-
+            var msg;
             var sessionID = item.id;
             var presenterID = item.presenter_id;
 
@@ -149,7 +204,7 @@ module.exports = function () {
       }
     },
 
-    scheduleWebview: function (bot, message) {//TODO ATUALIZAR PARA O HACKTOWN!!!
+    scheduleWebview: function (bot, message) {
       var replyMessage = {};
 
       var genericTemplateInterface = FacebookUI.generic_template_model();
@@ -184,10 +239,6 @@ module.exports = function () {
       genericTemplateInterface.addButton('Vai rolar amanhã', 'postback', 'tomorrow', 1);
       genericTemplateInterface.addButton('Ver agenda completa no site', 'web_url', 'http://hacktown.com.br/programacao-oficial/', 1);
       genericTemplateInterface.addButton('Lista de locais', 'postback', 'locations', 1);
-
-      genericTemplateInterface.addElement('Ainda mais opções', null, null, 'postback', null, false, null);
-      genericTemplateInterface.addButton('Mapa do Evento', 'postback', 'mapa', 2);
-
 
       replyMessage = genericTemplateInterface.genericTemplateMessage;
 

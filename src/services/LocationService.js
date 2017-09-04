@@ -20,7 +20,7 @@ module.exports = function () {
     },
 
     getLocationById: function (locationId) {
-      return SessionService.find({
+      return SessionService().find({
         location_id: locationId
       });
     }
