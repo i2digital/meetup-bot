@@ -144,6 +144,8 @@ module.exports = function () {
             convo.next();
           });
         });
+      } else {
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.');
       }
     },
 
