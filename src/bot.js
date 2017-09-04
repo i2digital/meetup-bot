@@ -1,13 +1,12 @@
-var env = require('node-env-file'); //puxa o módulo env responsável por setar o ambiente da aplicação
-env(__dirname + '/.env'); //aponta o móulo env para ler o arquivo .env
-
 var Botkit = require('botkit'); //puxa o módulo do botkit
-var debug = require('debug')('botkit:main'); //requer o módulo de debug do botkit
-var os = require('os'); //puxa o módulo os, responsável por realizar operações do sistema operacional
 
 /**
  * CHECK DEPENDENCIES
  */
+if (!process.env.HEROKU_ENV) {
+  var env = require('node-env-file'); //puxa o módulo env responsável por setar o ambiente da aplicação
+  env(__dirname + '/.env'); //aponta o móulo env para ler o arquivo .env
+}
 if (!process.env.MONGODB_URI) {
   console.log('Error: Need MongoDB');
   process.exit(1);
@@ -27,15 +26,14 @@ var controller = Botkit.facebookbot({
   access_token: process.env.FB_PAGE_TOKEN,
   verify_token: process.env.FB_VERIFY_TOKEN,
   bot_type: 'facebook',
-  receive_via_postback: true,
-  // require_delivery: true
+  receive_via_postback: true
 });
 
 var watsonMiddleware = require('botkit-middleware-watson')({
   username: process.env.WATSON_CONVERSATION_USERNAME,
   password: process.env.WATSON_CONVERSATION_PASSWORD,
   workspace_id: process.env.WATSON_CONVERSATION_WORKSPACEID,
-  version_date: '2017-05-26',
+  version_date: '2017-05-26'
 });
 controller.middleware.receive.use(watsonMiddleware.receive);
 
