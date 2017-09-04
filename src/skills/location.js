@@ -1,5 +1,5 @@
 var BotUI = require('../UI/BotUI');
-var SessionService = require('../services/LocationService');
+var LocationService = require('../services/LocationService');
 
 module.exports = function (controller, watsonMiddleware) {
 
