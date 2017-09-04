@@ -4,20 +4,16 @@ module.exports = function (controller) {
   controller.api.messenger_profile.get_started('welcome_payload');
 
   menu_call_to_actions = [
-    {
-      "title": "Agora",
-      "type": "postback",
-      "payload": "current_payload"
-    },
-    {
-      "title": "Próxima",
-      "type": "postback",
-      "payload": "next"
-    },
+
     {
       "title": "Ajuda",
       "type": "postback",
       "payload": "about"
+    },
+    {
+      "title": "Mapa do Evento",
+      "type": "postback",
+      "payload": "mapa"
     }
   ];
 

@@ -152,11 +152,12 @@ module.exports = function () {
           bot.startConversation(message, function (err, convo) {
 
             items.forEach(function(item) {
-              var item = items[0];
+
               var msg;
+
               var locationID = item.id;
 
-              msg = item.title + ':\n';
+              var msg = item.title + ':\n';
 
               if(item.address) {
                 msg += item.address;
