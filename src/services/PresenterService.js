@@ -1,4 +1,5 @@
 var rp = require('request-promise');
+var SessionService = require('./SessionService');
 
 module.exports = function () {
 
@@ -18,14 +19,9 @@ module.exports = function () {
     },
 
     getPresenterSessions: function (presenterID) {
-      var options = {
-        uri: api_path + '/presenter/' + presenterID + '/sessions',
-        qs: {
-          ts: new Date()
-        },
-        json: true
-      };
-      return rp(options);
+      return SessionService.find({
+        presenter_id: presenterID
+      });
     }
 
   };

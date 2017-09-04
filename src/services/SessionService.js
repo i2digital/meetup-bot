@@ -3,6 +3,11 @@ var rp = require('request-promise');
 module.exports = function () {
 
   api_path = process.env.MEETUPBOT_API_URL;
+  event_id = process.env.MEETUPBOT_API_EVENT_ID;
+
+  function str_pad(n) {
+    return String("00" + n).slice(-2);
+  }
 
   SessionService = {
 
@@ -16,29 +21,41 @@ module.exports = function () {
       };
       return rp(options);
     },
-    getToday: function () {
+    find: function (params) {
+      params.ts = new Date();
       var options = {
-        uri: api_path + '/event/117/session/today',
-        qs: {
-          ts: new Date()
-        },
+        uri: api_path + '/event/' + event_id + '/sessions',
+        qs: params,
         json: true
       };
       return rp(options);
     },
+    getToday: function () {
+      date = new Date();
+      date_string = date.getFullYear();
+      date_string += '-' + str_pad((date.getMonth() + 1)) + '-';
+      return this.find({
+        start: date_string + str_pad(date.getDate()) + 'T00:00:00',
+        end: date_string + str_pad(date.getDate() + 1) + 'T00:00:00'
+      });
+    },
     getTomorrow: function () {
-      var options = {
-        uri: api_path + '/event/117/session/tomorrow',
-        qs: {
-          ts: new Date()
-        },
-        json: true
-      };
-      return rp(options);
+      date = new Date();
+      date_string = date.getFullYear();
+      date_string += '-' + str_pad((date.getMonth() + 1)) + '-';
+      return this.find({
+        start: date_string + str_pad(date.getDate() + 1) + 'T00:00:00',
+        end: date_string + str_pad(date.getDate() + 2) + 'T00:00:00'
+      });
+    },
+    getSearch: function (keyword) {
+      return this.find({
+        search: keyword
+      });
     },
     getCurrent: function () {
       var options = {
-        uri: api_path + '/event/117/session/current',
+        uri: api_path + '/event/' + event_id + '/session/current',
         qs: {
           ts: new Date()
         },
@@ -48,25 +65,14 @@ module.exports = function () {
     },
     getNext: function () {
       var options = {
-        uri: api_path + '/event/117/session/next',
+        uri: api_path + '/event/' + event_id + '/session/next',
         qs: {
           ts: new Date()
         },
         json: true
       };
       return rp(options);
-    },
-    getSearch: function (keyword) {
-      var options = {
-        uri: api_path + '/event/117/session/search',
-        qs: {
-          keywords: keyword,
-          ts: new Date()
-        },
-        json: true
-      };
-      return rp(options);
-    },
+    }
 
   };
 
