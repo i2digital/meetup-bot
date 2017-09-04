@@ -2,6 +2,8 @@ var BotUI = require('../UI/BotUI');
 
 module.exports = function (controller) {
 
+  var BotUserService = require('../services/BotUserService.js')(controller);
+
   controller.hears(['(.*)'], ['message_received'], function (bot, message) {
 
     if (message.text !== 'welcome_payload') {
@@ -10,7 +12,12 @@ module.exports = function (controller) {
 
         var actionEvent = message.watsonData.output.action;
         console.info('WATSON ACTION EVENT: ' + actionEvent);
-        controller.trigger(actionEvent, [bot, message]);
+
+        BotUserService.load(message.user).then(function (BotUser) {
+          BotUser.history.push(message);
+          BotUserService.save(BotUser);
+          controller.trigger(actionEvent, [bot, message, BotUser]);
+        });
 
       }
       else if (message.watsonData && message.watsonData.output.nodes_visited[0] !== 'Em outros casos') {
