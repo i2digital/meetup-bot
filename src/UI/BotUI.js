@@ -185,6 +185,9 @@ module.exports = function () {
       genericTemplateInterface.addButton('Ver agenda completa no site', 'web_url', 'http://hacktown.com.br/programacao-oficial/', 1);
       genericTemplateInterface.addButton('Lista de locais', 'postback', 'locations', 1);
 
+      genericTemplateInterface.addElement('Ainda mais opções', null, null, 'postback', null, false, null);
+      genericTemplateInterface.addButton('Mapa do Evento', 'postback', 'mapa', 2);
+
 
       replyMessage = genericTemplateInterface.genericTemplateMessage;
 
