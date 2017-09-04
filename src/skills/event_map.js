@@ -1,11 +1,11 @@
-const FacebookInterface = require('../components/FacebookAPIInterface');
+const FacebookUI = require('../UI/FacebookUI');
 
 module.exports = function (controller, watsonMiddleware) {
 
-  controller.hears(['map'], ['message_received'], function (bot, message) {
-    bot.reply(message, 'Opa, me mostra o mapa!');
+  controller.hears(['map', 'mapa'], ['message_received'], function (bot, message) {
+    bot.reply(message, 'Sai um mapa no capricho! ;)');
     url = 'https://hacktown-bot-2017-dev.herokuapp.com/hacktown_mapa.jpg';
-    FacebookInterface.imageMessage(url);
+    bot.reply(message, FacebookUI.imageMessage(url));
   });
 
-}
+};

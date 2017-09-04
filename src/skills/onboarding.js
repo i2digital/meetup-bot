@@ -1,45 +1,42 @@
-let userProfile = require('../components/UserProfileAPIInterface');
-let BotUI = require('../components/BotUI');
+var BotUI = require('../UI/BotUI');
+var FacebookUser = require('../services/FacebookUser');
 
 module.exports = function (controller, watsonMiddleware) {
 
-    function extractName(message, callback) {
-        userProfile(message.user).req(function(err, body) {
-            var firstName = JSON.parse(body).first_name;
-            callback(null, firstName);
-        });
-    }
+  var BotUserService = require('../services/BotUserService.js')(controller);
 
-    function processWatsonResponse(bot, message) {
+  controller.hears(['welcome_payload'], ['facebook_postback'], function (bot, message) {
 
-        var newMessage = message;
-        newMessage.text = 'welcome';
+    BotUserService.getByID(message.user).then(function (BotUsers) {
 
-        extractName(message, updateUserName);
+      var BotUser;
+      if (BotUsers.length == 0) {
+        BotUser = BotUserService.initiate(message.user);
+      } else {
+        BotUser = BotUsers[0];
+      }
+      BotUser.history.push(message);
 
-        function updateUserName (err, firstName) {
-            if(err){
-                throw new Error('An error in extractName has ocurred.');
-            }else {
-                watsonMiddleware.updateContext(message.user,
-                    {
-                    nome: firstName
-                    }
-                    ,
-                    replyUpdatedMessage);
-            }
-        }
+      var newMessage = message;
+      newMessage.text = 'welcome';
 
-        function replyUpdatedMessage () {
-            watsonMiddleware.sendToWatson(bot, newMessage, function(){
-                bot.reply(newMessage, newMessage.watsonData.output.text[0], function() {
-                    BotUI().aboutMenu(bot, message);
-                });
+      FacebookUser(message.user).req(function (err, body) {
+        BotUser.data = JSON.parse(body);
+        var firstName = BotUser.data.first_name;
+        watsonMiddleware.updateContext(message.user,
+          {
+            nome: firstName
+          }
+          , function () {
+            watsonMiddleware.sendToWatson(bot, newMessage, function () {
+              bot.reply(newMessage, newMessage.watsonData.output.text[0], function () {
+                BotUI().aboutMenu(bot, message);
+              });
             });
-        }
-    }
-
-
-    controller.hears(['welcome_payload'], ['facebook_postback'], processWatsonResponse);
-
+            BotUserService.save(BotUser);
+          }
+        );
+      });
+    });
+  });
 };

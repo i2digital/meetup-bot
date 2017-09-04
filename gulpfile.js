@@ -1,6 +1,6 @@
-const gulp = require('gulp');
-const spawn = require('child_process').spawn;
-let node;
+var gulp = require('gulp');
+var spawn = require('child_process').spawn;
+var node;
 
 function server() {
   if (node) {
