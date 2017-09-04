@@ -18,7 +18,7 @@ module.exports = function (controller) {
           BotUI().formatActivitiesList(bot, message, itemsNoDuplicates);
         })
         .catch(function (err) {
-          console.log('ERROR SessionService().getToday()');
+          console.log('ERROR SessionService().getSearch()');
           console.log(err);
         });
     });

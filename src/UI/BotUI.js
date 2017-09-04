@@ -61,9 +61,8 @@ module.exports = function () {
 
     },
 
-    //TODO display presenter image and details in a template
-    //button with Presenter Sessions to display the speakings the presenter will give
-    showPresenterDetails: function (bot, message, items) {
+    showPresenterDetails: function(bot, message, items) {
+
       var item = items[0];
       var msg = item.title + '\n\n';
       msg += item.text;
@@ -145,6 +144,8 @@ module.exports = function () {
             convo.next();
           });
         });
+      } else {
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.');
       }
     },
 
@@ -183,6 +184,9 @@ module.exports = function () {
       genericTemplateInterface.addButton('Vai rolar amanhã', 'postback', 'tomorrow', 1);
       genericTemplateInterface.addButton('Ver agenda completa no site', 'web_url', 'http://hacktown.com.br/programacao-oficial/', 1);
       genericTemplateInterface.addButton('Lista de locais', 'postback', 'locations', 1);
+
+      genericTemplateInterface.addElement('Ainda mais opções', null, null, 'postback', null, false, null);
+      genericTemplateInterface.addButton('Mapa do Evento', 'postback', 'mapa', 2);
 
 
       replyMessage = genericTemplateInterface.genericTemplateMessage;
