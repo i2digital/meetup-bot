@@ -55,14 +55,11 @@ module.exports = function () {
 
     },
 
-    //TODO display button in the locations list with a postback to
-    //the location map, and Sessions happening there
     showLocationSessions: function (bot, message, items) {
       if (items && items.length > 0) {
           bot.startConversation(message, function (err, convo) {
 
             items.forEach(function(item) {
-              var item = items[0];
               var msg;
               var sessionID = item.id;
 
@@ -86,7 +83,7 @@ module.exports = function () {
             });
           });
         } else {
-          bot.reply(message, 'Não existem localizações para serem exibidas.')
+          bot.reply(message, 'Não existem atividades para esta localização.')
         }
     },
 
@@ -116,7 +113,10 @@ module.exports = function () {
 
       var msg = item.title + '\n';
       msg += item.presenter + '\n\n';
-      msg += '(' + item.tags + ')\n';
+
+      if(item.tags && item.tags > 0) {
+        msg += '(' + item.tags + ')\n';
+      }
 
       bot.reply(message, msg, function () {
 
@@ -158,10 +158,6 @@ module.exports = function () {
               var locationID = item.id;
 
               var msg = item.title + ':\n';
-
-              if(item.address) {
-                msg += item.address;
-              }
 
               var postBackButtonInterface = FacebookUI.postback_button(msg);
               postBackButtonInterface.addButton('Atividades do Local', 'location_sessions_' + locationID);
