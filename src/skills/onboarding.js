@@ -7,14 +7,8 @@ module.exports = function (controller, watsonMiddleware) {
 
   controller.hears(['welcome_payload'], ['facebook_postback'], function (bot, message) {
 
-    BotUserService.getByID(message.user).then(function (BotUsers) {
+    BotUserService.load(message.user).then(function (BotUser) {
 
-      var BotUser;
-      if (BotUsers.length == 0) {
-        BotUser = BotUserService.initiate(message.user);
-      } else {
-        BotUser = BotUsers[0];
-      }
       BotUser.history.push(message);
 
       var newMessage = message;

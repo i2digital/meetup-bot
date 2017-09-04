@@ -1,4 +1,4 @@
-'use strict';
+var Promise = require('promise');
 
 module.exports = function (controller) {
 
@@ -6,6 +6,7 @@ module.exports = function (controller) {
     return {
       id: id,
       started: new Date(),
+      last_contact: new Date(),
       data: {},
       history: []
     };
@@ -13,6 +14,26 @@ module.exports = function (controller) {
 
   function getByID(id) {
     return controller.storage.botusers.find({id: id});
+  }
+
+  function load(id) {
+    promise = new Promise(function (resolve, reject) {
+
+      getByID(id).then(function (BotUsers) {
+
+        var BotUser;
+        if (BotUsers.length == 0) {
+          BotUser = initiate(id);
+        } else {
+          BotUser = BotUsers[0];
+        }
+        BotUser.last_contact = new Date();
+
+        resolve(BotUser);
+      });
+
+    });
+    return promise;
   }
 
   function getAll() {
@@ -26,6 +47,7 @@ module.exports = function (controller) {
   return {
     initiate: initiate,
     getByID: getByID,
+    load: load,
     getAll: getAll,
     save: save
   };
