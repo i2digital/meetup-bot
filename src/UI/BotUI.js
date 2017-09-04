@@ -122,7 +122,6 @@ module.exports = function () {
     },
 
     formatActivitiesList: function (bot, message, items, cb) {
-
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
@@ -146,8 +145,6 @@ module.exports = function () {
             convo.next();
           });
         });
-      } else {
-        bot.reply(message, 'Não há atividades para este dia.');
       }
     },
 

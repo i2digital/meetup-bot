@@ -6,12 +6,16 @@ module.exports = function (controller, watsonMiddleware) {
   controller.on('today', function (bot, message) {
     bot.startTyping(message, function () {
 
-      date = new Date();
-      bot.reply(message, 'Atividades para hoje ' + (date.getMonth() + 1) + '/' + date.getDate() + ":");
-
       SessionService().getToday()
         .then(function (items) {
-          BotUI().formatActivitiesList(bot, message, items);
+          if (items && items.length > 0) {
+            date = new Date();
+            bot.reply(message, 'Atividades para hoje ' + (date.getDate()) + '/' + (date.getMonth() + 1) + ":");
+            BotUI().formatActivitiesList(bot, message, items);
+          }
+          else {
+            bot.reply(message, 'Hoje não temos nenhuma atividade prevista.');
+          }
         })
         .catch(function (err) {
           console.log('ERROR SessionService().getToday()');

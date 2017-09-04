@@ -8,20 +8,20 @@ module.exports = function (controller) {
 
     var keyword = message.match[1];
 
-      bot.startTyping(message, function () {
+    bot.startTyping(message, function () {
 
-        bot.reply(message, 'Buscando por ' + keyword);
+      bot.reply(message, 'Buscando por "' + keyword + '"');
 
-        SessionService().getSearch(keyword)
-          .then(function (items) {
-            var itemsNoDuplicates = rmDups(items, 'id');
-            BotUI().formatActivitiesList(bot, message, itemsNoDuplicates);
-          })
-          .catch(function (err) {
-            console.log('ERROR SessionService().getToday()');
-            console.log(err);
-          });
-      });
+      SessionService().getSearch(keyword)
+        .then(function (items) {
+          var itemsNoDuplicates = rmDups(items, 'id');
+          BotUI().formatActivitiesList(bot, message, itemsNoDuplicates);
+        })
+        .catch(function (err) {
+          console.log('ERROR SessionService().getToday()');
+          console.log(err);
+        });
+    });
   });
 };
 
