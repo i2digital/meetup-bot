@@ -182,27 +182,33 @@ module.exports = function () {
     formatActivitiesList: function (bot, message, items, cb) {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
+          items.slice(0, 5).forEach(function (item) {
 
-          items.forEach(function (item) {
-            var msg;
-            var sessionID = item.id;
-            var presenterID = item.presenter_id;
+              var msg;
+              var sessionID = item.id;
+              var presenterID = item.presenter_id;
 
-            msg = '* ';
-            msg += item.date_start + ' / ' + item.date_end + "\n";
-            msg += item.title + "\n";
-            msg += item.presenter;
+              msg = '* ';
+              msg += item.date_start + ' / ' + item.date_end + "\n";
+              msg += item.title + "\n";
+              msg += item.presenter;
 
-            var postBackButtonInterface = FacebookUI.postback_button(msg);
-            postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' + sessionID);
-            postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_' + presenterID);
+              var postBackButtonInterface = FacebookUI.postback_button(msg);
+              postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' + sessionID);
+              postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_' + presenterID);
 
-            var response = postBackButtonInterface.postBackButton;
+              var response = postBackButtonInterface.postBackButton;
 
-            convo.say(response);
-            convo.next();
+              convo.say(response);
+              convo.next();
+
           });
         });
+
+        if(items.length > 5) {
+          cb(null);
+        }
+
       } else {
         bot.reply(message, 'Não encontrei nenhum resultado para sua busca.');
       }

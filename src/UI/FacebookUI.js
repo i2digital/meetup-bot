@@ -58,9 +58,9 @@ module.exports.quick_reply = function () {
       text: '',
       quick_replies: []
     },
-    addQuickReply: function (content, title, payload) {
+    addQuickReply: function (content_type, title, payload) {
       var quick_reply = {
-        content_type: content,
+        content_type: content_type,
         title: title,
         payload: payload
       };
