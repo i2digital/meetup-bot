@@ -13,7 +13,7 @@ module.exports.imageMessage = function (imageUrl) {
 
 module.exports.webview_button = function (textMessage, urlPath, buttonTitle) {
   return {
-    webviewMessage: {
+    message: {
       attachment: {
         type: 'template',
         payload: {
@@ -53,8 +53,8 @@ module.exports.staticMapLocationDisplay = function (title, lat, long, address) {
 };
 
 module.exports.quick_reply = function () {
-  var QuickReplyInterface = {
-    quickReplyMessage: {
+  var Widget = {
+    message: {
       text: '',
       quick_replies: []
     },
@@ -64,15 +64,10 @@ module.exports.quick_reply = function () {
         title: title,
         payload: payload
       };
-      QuickReplyInterface.quickReplyMessage.quick_replies.push(quick_reply);
-    },
-    cleanReplies: function (quickReplyInterface) {
-      if (quickReplyInterface.quickReplyMessage.quick_replies.length != 0) {
-        quickReplyInterface.quickReplyMessage.quick_replies = [];
-      }
+      Widget.message.quick_replies.push(quick_reply);
     }
   };
-  return QuickReplyInterface;
+  return Widget;
 };
 
 module.exports.postback_button = function (messageText) {

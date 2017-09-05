@@ -6,7 +6,7 @@ module.exports = function (controller) {
 
   controller.hears(['(.*)'], ['message_received'], function (bot, message) {
 
-    if (message.text !== 'welcome_payload') {
+    if (message.text !== 'PAYLOAD_WELCOME') {
 
       if (message.watsonData.output.action) {
 

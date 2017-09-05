@@ -35,7 +35,7 @@ var watsonMiddleware = require('botkit-middleware-watson')({
   workspace_id: process.env.WATSON_CONVERSATION_WORKSPACEID,
   version_date: '2017-05-26'
 });
-controller.middleware.receive.use(watsonMiddleware.receive);
+// controller.middleware.receive.use(watsonMiddleware.receive);
 
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
@@ -47,4 +47,4 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
 require(__dirname + '/components/subscribe_events.js')(controller);
 require(__dirname + '/components/thread_settings.js')(controller);
 require(__dirname + '/components/plugin_dashbot.js')(controller);
-require(__dirname + '/components/watson_processing.js')(controller);
+// require(__dirname + '/components/watson_processing.js')(controller);
