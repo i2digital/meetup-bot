@@ -6,8 +6,19 @@ module.exports = function (controller) {
   menu_call_to_actions = [
     {
       "title": "Ajuda",
-      "type": "postback",
-      "payload": "PAYLOAD_HELP"
+      "type": "nested",
+      "call_to_actions": [
+        {
+          "title":"Fale com a equipe!",
+          "type":"postback",
+          "payload":"PAYLOAD_HELP"
+        },
+        {
+          "title":"Dicas",
+          "type":"postback",
+          "payload":"PAYLOAD_TIPS"
+        }
+      ]
     },
     {
       "title": "Programação",
