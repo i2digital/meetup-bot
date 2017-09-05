@@ -8,6 +8,20 @@ module.exports = function () {
 
   LocationService = {
 
+    getSearch: function (keyword) {
+      return this.find({
+        search: keyword
+      });
+    },
+    find: function (params) {
+      params.ts = new Date();
+      var options = {
+        uri: api_path + '/event/' + event_id + '/locations',
+        qs: params,
+        json: true
+      };
+      return rp(options);
+    },
     listLocations: function () {
       var options = {
         uri: api_path + '/event/' + event_id + '/locations',

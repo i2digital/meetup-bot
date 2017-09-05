@@ -105,7 +105,6 @@ module.exports = function () {
           bot.reply(message, viewSessionsButton);
         });
       });
-
     },
 
     showActivityDetails: function (bot, message, items) {
@@ -167,7 +166,36 @@ module.exports = function () {
               var msg = item.title + ':\n';
 
               var postBackButtonInterface = FacebookUI.postback_button(msg);
-              postBackButtonInterface.addButton('Atividades do Local', 'location_sessions_' + locationID);
+              postBackButtonInterface.addButton('Atividades no local', 'location_sessions_' + locationID);
+
+              var response = postBackButtonInterface.postBackButton;
+              convo.say(response);
+              convo.next();
+            });
+          });
+        } else {
+          bot.reply(message, 'Não existem localizações para serem exibidas.')
+        }
+      },
+
+      formatPresentersList: function (bot, message, items) {
+        if (items && items.length > 0) {
+          bot.startConversation(message, function (err, convo) {
+
+            items.forEach(function(item) {
+
+              var msg;
+
+              var presenterID = item.id;
+
+              var msg = item.title + '\n\n';
+
+              if(item.text) {
+                msg += ' - ' + item.text;
+              }
+
+              var postBackButtonInterface = FacebookUI.postback_button(msg);
+              postBackButtonInterface.addButton('Atividades do palestrante', 'presenter_sessions_' + presenterID);
 
               var response = postBackButtonInterface.postBackButton;
               convo.say(response);

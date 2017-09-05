@@ -32,7 +32,7 @@ module.exports = function (controller, watsonMiddleware) {
                 else if(message.text === 'Local'
                     || message.quick_reply.payload == 'LOCATION_PAYLOAD') {
 
-                    BotUser.searchContext.type = 'presenter_context'
+                    BotUser.searchContext.type = 'location_context'
 
                 }
 
