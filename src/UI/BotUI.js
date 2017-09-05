@@ -179,6 +179,56 @@ module.exports = function () {
         }
       },
 
+      formatActivitiesCarrousel: function (bot, message, items, cb) {
+      if (items && items.length > 0) {
+        elementIndex = 0;
+
+        bot.startConversation(message, function (err, convo) {
+
+          genericTemplate = FacebookUI.generic_template_model();
+
+          items.slice(0, 5).forEach(function (item) {
+
+              sessionID = item.id;
+              presenterID = item.presenter_id;
+              title = item.title;
+              var presenter = '';
+              var date = '';
+
+              if(item.presenter){
+                presenter = item.presenter + '\n';
+              }
+              if(item.date_day){
+                date += item.date_day;
+              }
+              if(item.date_start){
+                date += ' - ' + item.date_start;
+              }
+              if(item.date_end){
+                date += ' / ' + item.date_end
+              }
+
+              additionalInfo = presenter + date;
+
+              genericTemplate.addElement(title, null, additionalInfo, 'postback', null, false, null);
+              genericTemplate.addButton('Detalhes da Atividade', 'postback', 'session_details_' + sessionID, elementIndex);
+
+              if(item.presenter) {
+                genericTemplate.addButton('Detalhes do Palestrante', 'postback', 'presenter_details_' + presenterID, elementIndex);
+              }
+
+              elementIndex++;
+
+          });
+          response = genericTemplate.genericTemplateMessage;
+          convo.say(response);
+          convo.next();
+        });
+      } else {
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.');
+      }
+    },
+
     formatActivitiesList: function (bot, message, items, cb) {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {

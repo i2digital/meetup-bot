@@ -9,9 +9,9 @@ module.exports =  function(controller) {
 
         BotUserService.load(message.user).then(function (BotUser) {
 
-            console.log(BotUser.searchContext);
-
             if(BotUser.searchContext.type === 'session_context') {
+
+                console.log('SEARCH CONTEXT: ', BotUser.searchContext.type);
 
                 keyword = message.text;
 
@@ -20,9 +20,7 @@ module.exports =  function(controller) {
 
                         SessionService().getSearch(keyword)
                         .then(function(items) {
-                            BotUI().formatActivitiesList(bot, message, items, function() {
-                                bot.reply(message, 'Muitos resultados para essa busca!');//TODO
-                            });
+                            BotUI().formatActivitiesCarrousel(bot, message, items);
                         })
                         .catch(function(err){
                             console.log('Error in SessionService.getSearch()');
