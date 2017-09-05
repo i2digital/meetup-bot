@@ -50,7 +50,7 @@ module.exports = function () {
 
         bot.reply(message, locationMessage);
       } else {
-        bot.reply(message, 'Nao consegui encontrar as coordenadas para o local desejado! :(');
+        bot.reply(message, 'Não consegui encontrar as coordenadas para o local desejado! :(');
       }
 
     },
@@ -122,27 +122,34 @@ module.exports = function () {
 
         var dateTime = 'Data:\n';
         dateTime += ' - ' + item.date_day + '\n';
-        dateTime += 'Hora Inicio / Hora Termino:\n';
+        dateTime += 'Hora Início / Hora Término:\n';
         dateTime += ' - ' + item.date_start + ' / ' + item.date_end;
 
         bot.reply(message, dateTime, function () {
 
-          var description = 'Descricao:\n\n';
-          description += ' - ' + item.text;
+          if(item.text && item.text.length > 0 ) {
 
-          bot.reply(message, description, function () {
+            var description = 'Descrição:\n\n';
+            description += ' - ' + item.text;
+
+            bot.reply(message, description, viewDirectionsButton);
+          } else {
+            viewDirectionsButton();
+          }
+
+          function viewDirectionsButton() {
 
             if (item.location_address.length > 0) {
-              var text = 'Endereco' + item.location_address;
+              var text = 'Endereço' + item.location_address;
             } else {
               var text = 'Veja como chegar:';
             }
             var postBackButtonInterface = FacebookUI.postback_button(text);
-            postBackButtonInterface.addButton('Ver Direcoes', 'location_id_' + item.location_id);
+            postBackButtonInterface.addButton('Ver Direções', 'location_id_' + item.location_id);
             var response = postBackButtonInterface.postBackButton;
 
             bot.reply(message, response);
-          });
+          }
         });
       });
     },
