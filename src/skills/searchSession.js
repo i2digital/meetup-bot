@@ -9,6 +9,8 @@ module.exports =  function(controller) {
 
         BotUserService.load(message.user).then(function (BotUser) {
 
+            console.log(BotUser.searchContext);
+
             if(BotUser.searchContext.type === 'session_context') {
 
                 keyword = message.text;

@@ -11,27 +11,34 @@ module.exports = function (controller, watsonMiddleware) {
 
         bot.reply(message, 'Me diga uma palavra para eu pesquisar:', function(){
 
-            if(message.text === 'Palestra'
-                || message.quick_reply.payload == 'SESSION_PAYLOAD') {
+            BotUserService.load(message.user).then(function (BotUser) {
 
-                BotUserService.load(message.user).then(function (BotUser) {
-                    BotUser.searchContext = {
-                        type: 'session_context',
-                    }
-                    BotUserService.save(BotUser);
-                });
-            }
-            else if(message.text === 'Palestrante'
-                || message.quick_reply.payload == 'PRESENTER_PAYLOAD') {
+                BotUser.searchContext = {
+                    type: '',
+                }
 
+                if(message.text === 'Palestra'
+                    || message.quick_reply.payload == 'SESSION_PAYLOAD') {
 
+                    BotUser.searchContext.type = 'session_context'
 
-            }
-            else if(message.text === 'Local'
-                || message.quick_reply.payload == 'LOCATION_PAYLOAD') {
+                }
+                else if(message.text === 'Palestrante'
+                    || message.quick_reply.payload == 'PRESENTER_PAYLOAD') {
 
-            }
+                    BotUser.searchContext.type = 'presenter_context'
 
+                }
+                else if(message.text === 'Local'
+                    || message.quick_reply.payload == 'LOCATION_PAYLOAD') {
+
+                    BotUser.searchContext.type = 'presenter_context'
+
+                }
+
+                BotUserService.save(BotUser);
+
+            });
         });
     });
 }
