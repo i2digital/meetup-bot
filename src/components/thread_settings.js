@@ -9,14 +9,14 @@ module.exports = function (controller) {
       "type": "nested",
       "call_to_actions": [
         {
-          "title":"Fale com a equipe!",
-          "type":"postback",
-          "payload":"PAYLOAD_HELP"
-        },
-        {
           "title":"Dicas",
           "type":"postback",
           "payload":"PAYLOAD_TIPS"
+        },
+        {
+          "title":"Fale com a equipe",
+          "type":"postback",
+          "payload":"PAYLOAD_HELP"
         }
       ]
     },
