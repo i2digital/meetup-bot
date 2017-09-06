@@ -13,6 +13,7 @@ module.exports = function () {
         search: keyword
       });
     },
+
     find: function (params) {
       params.ts = new Date();
       var options = {
@@ -22,6 +23,7 @@ module.exports = function () {
       };
       return rp(options);
     },
+
     listLocations: function () {
       var options = {
         uri: api_path + '/event/' + event_id + '/locations',
@@ -33,7 +35,7 @@ module.exports = function () {
       return rp(options);
     },
 
-    getLocationById: function (locationId) {
+    getLocationSessions: function (locationId) {
       return SessionService().find({
         location_id: locationId
       });

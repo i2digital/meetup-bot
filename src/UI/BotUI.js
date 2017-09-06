@@ -64,6 +64,7 @@ var self = module.exports = function () {
     },
 
     formatLocationsList: function (bot, message, items) {
+
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
@@ -76,7 +77,7 @@ var self = module.exports = function () {
             var msg = item.title + ':\n';
 
             var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('Atividades no local', 'postback','location_sessions_' + locationID);
+            postBackButtonInterface.addButton('Atividades no local', 'postback','sessions_in_location_' + locationID);
 
             var response = postBackButtonInterface.postBackButton;
             convo.say(response);
@@ -91,6 +92,7 @@ var self = module.exports = function () {
           convo.next();
 
         });
+
       } else {
         bot.reply(message, 'Não existem localizações para serem exibidas.', function() {
 
@@ -104,6 +106,7 @@ var self = module.exports = function () {
     },
 
     formatPresentersList: function (bot, message, items) {
+
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
@@ -134,6 +137,7 @@ var self = module.exports = function () {
           convo.say(responseButton);
           convo.next();
         });
+
       } else {
         bot.reply(message, 'Não existem palestrantes para serem exibidos.', function() {
 
@@ -146,31 +150,8 @@ var self = module.exports = function () {
       }
     },
 
-    showSessionLocation: function (bot, message, item) {
+    showSessionsInLocation: function (bot, message, items) {
 
-      if (item.title && item.latitude && item.longitude) {
-
-        var title = item.title;
-        var lat = item.latitude.match(/[^,]*/i)[0];
-        var long = item.longitude.match(/[^,]*/i)[0];
-        var address;
-
-        if (item.address) {
-          address = item.address;
-        } else {
-          address = '';
-        }
-
-        var locationMessage = FacebookUI.staticMapLocationDisplay(title, lat, long, address);
-
-        bot.reply(message, locationMessage);
-      } else {
-        bot.reply(message, 'Não consegui encontrar as coordenadas para o local desejado! :(');
-      }
-
-    },
-
-    showLocationSessions: function (bot, message, items) {
       if (items && items.length > 0) {
           bot.startConversation(message, function (err, convo) {
 
@@ -197,6 +178,7 @@ var self = module.exports = function () {
               convo.next();
             });
           });
+
         } else {
           bot.reply(message, 'Não existem atividades para esta localização.')
         }
@@ -299,7 +281,30 @@ var self = module.exports = function () {
 
 // ---- BACK UP ---- //
 
+// showSessionLocationMap: function (bot, message, item) {
 
+    //   if (item.title && item.latitude && item.longitude) {
+
+    //     var title = item.title;
+    //     var lat = item.latitude.match(/[^,]*/i)[0];
+    //     var long = item.longitude.match(/[^,]*/i)[0];
+    //     var address;
+
+    //     if (item.address) {
+    //       address = item.address;
+    //     } else {
+    //       address = '';
+    //     }
+
+    //     var locationMessage = FacebookUI.staticMapLocationDisplay(title, lat, long, address);
+
+    //     bot.reply(message, locationMessage);
+
+    //   } else {
+    //     bot.reply(message, 'Não consegui encontrar as coordenadas para o local desejado! :(');
+    //   }
+
+    // },
 
 // welcomeMessage: function () {
 //   msg = "Olá, eu sou o Hack Town Bot e posso te dar informações sobre o evento deste ano. O que você gostaria de saber?"
