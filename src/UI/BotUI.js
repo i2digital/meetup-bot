@@ -68,7 +68,7 @@ var self = module.exports = function () {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
-          items.forEach(function(item) {
+          items.slice(0, 5).forEach(function(item) {
 
             var msg;
 
@@ -110,7 +110,7 @@ var self = module.exports = function () {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
-          items.forEach(function(item) {
+          items.slice(0, 5).forEach(function(item) {
 
             var msg;
 
@@ -155,7 +155,7 @@ var self = module.exports = function () {
       if (items && items.length > 0) {
           bot.startConversation(message, function (err, convo) {
 
-            items.forEach(function(item) {
+            items.slice(0, 5).forEach(function(item) {
               var msg;
               var sessionID = item.id;
 
