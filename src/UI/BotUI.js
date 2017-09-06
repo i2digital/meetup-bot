@@ -142,6 +142,13 @@ var self = module.exports = function () {
       }
     },
 
+    redirectToWebsiteButton: function (text) {
+      button = FacebookUI.button(text);
+      button.addButton('Abrir o site', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
+      responseButton = button.postBackButton;
+      return responseButton;
+    },
+
     showSessionsInLocation: function (bot, message, items) {
 
       if (items && items.length > 0) {
