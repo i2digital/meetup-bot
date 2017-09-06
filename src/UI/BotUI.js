@@ -50,18 +50,21 @@ var self = module.exports = function () {
           response = genericTemplate.genericTemplateMessage;
           convo.say(response);
 
-          var button = FacebookUI.button('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
-          button.addButton('Abrir o site', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
-          var responseButton = button.postBackButton;
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
 
-          convo.say(responseButton);
+          convo.say(websiteButton);
           convo.next();
         });
 
       } else {
-        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.');
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function() {
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          bot.reply(message, websiteButton);
+        });
       }
     },
+
+
 
     formatLocationsList: function (bot, message, items) {
 
@@ -84,24 +87,19 @@ var self = module.exports = function () {
             convo.next();
           });
 
-          var button = FacebookUI.button('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
-          button.addButton('Abrir o site', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
-          var responseButton = button.postBackButton;
+          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
 
-          convo.say(responseButton);
+          convo.say(websiteButton);
           convo.next();
-
         });
 
       } else {
         bot.reply(message, 'Não existem localizações para serem exibidas.', function () {
 
-          var button = FacebookUI.button('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
-          button.addButton('Programação', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
-          var responseButton = button.postBackButton;
+          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
 
-          bot.reply(message, responseButton);
-        })
+          bot.reply(message, websiteButton);
+        });
       }
     },
 
@@ -130,23 +128,17 @@ var self = module.exports = function () {
             convo.next();
           });
 
-          var button = FacebookUI.button('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
-          button.addButton('Abrir o site', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
-          var responseButton = button.postBackButton;
-
-          convo.say(responseButton);
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+          convo.say(websiteButton);
           convo.next();
         });
 
       } else {
         bot.reply(message, 'Não existem palestrantes para serem exibidos.', function () {
 
-          var button = FacebookUI.button('Acesse nossa programação oficial e confira tudo sobre nossos palestrantes.');
-          button.addButton('Abrir o site', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
-          var responseButton = button.postBackButton;
-
-          bot.reply(message, responseButton);
-        })
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+          bot.reply(message, websiteButton);
+        });
       }
     },
 
@@ -177,13 +169,18 @@ var self = module.exports = function () {
             convo.say(response);
             convo.next();
           });
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
+          convo.say(websiteButton);
+          convo.next();
         });
 
       } else {
-        bot.reply(message, 'Não existem atividades para esta localização.')
+        bot.reply(message, 'Não existem atividades para esta localização.', function() {
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
+          bot.reply(message, websiteButton);
+        });
       }
     },
-
 
     showPresenterDetails: function (bot, message, items) {
 
