@@ -10,9 +10,7 @@ module.exports = function (controller, watsonMiddleware) {
 
     bot.startTyping(message, function () {
 
-      BotUserService.load(message.user).then(function (BotUser) {
-
-        BotUser.history.push(message);
+      BotUserService.load(message).then(function (BotUser) {
 
         FacebookUser(message.user).req(function (err, body) {
           BotUser.data = JSON.parse(body);

@@ -16,18 +16,19 @@ module.exports = function (controller) {
     return controller.storage.botusers.find({id: id});
   }
 
-  function load(id) {
+  function load(message) {
     promise = new Promise(function (resolve, reject) {
 
-      getByID(id).then(function (BotUsers) {
+      getByID(message.user).then(function (BotUsers) {
 
         var BotUser;
         if (BotUsers.length == 0) {
-          BotUser = initiate(id);
+          BotUser = initiate(message.user);
         } else {
           BotUser = BotUsers[0];
         }
         BotUser.last_contact = new Date();
+        BotUser.history.push(message);
 
         resolve(BotUser);
       });
