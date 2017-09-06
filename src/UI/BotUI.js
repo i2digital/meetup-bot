@@ -13,7 +13,7 @@ var self = module.exports = function () {
 
           genericTemplate = FacebookUI.generic_template_model();
 
-          items.slice(0, 6).forEach(function (item) {
+          items.slice(0, 5).forEach(function (item) {
 
               sessionID = item.id;
               presenterID = item.presenter_id;
@@ -68,7 +68,7 @@ var self = module.exports = function () {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
-          items.slice(0, 6).forEach(function(item) {
+          items.slice(0, 5).forEach(function(item) {
 
             var msg;
 
