@@ -25,7 +25,7 @@ module.exports =  function(controller) {
 
                             SessionService().getSearch(keyword)
                             .then(function(items) {
-                                BotUI().formatActivitiesCarrousel(bot, message, items);
+                                BotUI().formatSessionsCarrousel(bot, message, items);
                             })
                             .catch(function(err){
                                 console.log('Error in SessionService.getSearch()');

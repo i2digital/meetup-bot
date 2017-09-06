@@ -22,19 +22,15 @@ module.exports = function () {
       };
       return rp(options);
     },
+
     getDetails: function (presenterID) {
-      var options = {
-        uri: api_path + '/presenter/' + presenterID,
-        qs: {
-          ts: new Date()
-        },
-        json: true
-      };
-      return rp(options);
+      return this.find({
+        id: presenterID
+      });
     },
 
     getPresenterSessions: function (presenterID) {
-      return SessionService.find({
+      return SessionService().find({
         presenter_id: presenterID
       });
     }
