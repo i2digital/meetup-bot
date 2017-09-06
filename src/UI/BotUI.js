@@ -119,11 +119,11 @@ var self = module.exports = function () {
             var msg = item.title + '\n\n';
 
             if (item.text) {
-              msg += ' - ' + item.text;
+              msg += ' - ' + item.text.replace('<br />', '\n');
             }
 
             var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('Atividades do palestrante', 'postback', 'presenter_details_' + presenterID);
+            postBackButtonInterface.addButton('+ sobre atividades', 'postback', 'presenter_details_' + presenterID);
 
             var response = postBackButtonInterface.postBackButton;
             convo.say(response);
@@ -184,11 +184,10 @@ var self = module.exports = function () {
       }
     },
 
-
     showPresenterDetails: function (bot, message, items) {
 
       var presenter = items[0];
-      var msg = presenter.title + '\n\n - ' + presenter.text;
+      var msg = presenter.title + '\n\n - ' + presenter.text.replace('<br />', '\n');
 
       bot.reply(message, msg, function () {
         PresenterService = require('../services/PresenterService');
@@ -235,7 +234,7 @@ var self = module.exports = function () {
             if (item.text && item.text.length > 0) {
 
               var description = 'Descrição:\n\n';
-              description += ' - ' + item.text;
+              description += ' - ' + item.text.replace('<br />', '\n');
 
               bot.reply(message, description);
             }
