@@ -12,14 +12,9 @@ module.exports = function () {
   SessionService = {
 
     getDetails: function (sessionId) {
-      var options = {
-        uri: api_path + '/session/' + sessionId,
-        qs: {
-          ts: new Date()
-        },
-        json: true
-      };
-      return rp(options);
+      return this.find({
+        session_id: sessionId
+      });
     },
     find: function (params) {
       params.ts = new Date();

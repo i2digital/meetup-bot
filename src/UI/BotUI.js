@@ -111,7 +111,7 @@ module.exports = function () {
       var item = items[0];
 
       var msg = item.title + '\n';
-      msg += item.presenter + '\n\n';
+      msg += ' - ' + item.presenter + '\n\n';
 
       if(item.tags && item.tags > 0) {
         msg += '(' + item.tags + ')\n';
@@ -126,29 +126,37 @@ module.exports = function () {
 
         bot.reply(message, dateTime, function () {
 
-          if(item.text && item.text.length > 0 ) {
+          var location = item.location_title;
 
-            var description = 'Descrição:\n\n';
-            description += ' - ' + item.text;
+          bot.reply(message, location, function() {
 
-            bot.reply(message, description, viewDirectionsButton);
-          } else {
-            viewDirectionsButton();
-          }
+            if(item.text && item.text.length > 0 ) {
 
-          function viewDirectionsButton() {
+              var description = 'Descrição:\n\n';
+              description += ' - ' + item.text;
 
-            if (item.location_address.length > 0) {
-              var text = 'Endereço' + item.location_address;
-            } else {
-              var text = 'Veja como chegar:';
+              bot.reply(message, description);
+              // bot.reply(message, description, viewDirectionsButton);
             }
-            var postBackButtonInterface = FacebookUI.button(text);
-            postBackButtonInterface.addButton('Ver Direções', 'postback','location_id_' + item.location_id);
-            var response = postBackButtonInterface.postBackButton;
+          });
 
-            bot.reply(message, response);
-          }
+          // else {
+          //   viewDirectionsButton();
+          // }
+
+          // function viewDirectionsButton() {
+
+          //   if (item.location_address.length > 0) {
+          //     var text = 'Endereço' + item.location_address;
+          //   } else {
+          //     var text = 'Veja como chegar:';
+          //   }
+          //   var postBackButtonInterface = FacebookUI.button(text);
+          //   postBackButtonInterface.addButton('Ver Direções', 'postback','location_id_' + item.location_id);
+          //   var response = postBackButtonInterface.postBackButton;
+
+          //   bot.reply(message, response);
+          // }
         });
       });
     },
