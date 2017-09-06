@@ -2,10 +2,10 @@ var FacebookUI = require('../UI/FacebookUI');
 
 module.exports = function (controller, watsonMiddleware) {
 
-  controller.hears(['PAYLOAD_TIPS', 'Ajuda'], ['message_received'], function (bot, message) {
+  controller.hears(['PAYLOAD_TIPS', 'Dicas'], ['message_received'], function (bot, message) {
 
     bot.reply(message, 'Aqui vão algumas dicas para você que participará do Hack Town', function(){
-         var genericTemplate = FacebookUI.generic_template_model();
+        var genericTemplate = FacebookUI.generic_template_model();
 
         survivalGuideimageUrl = 'https://cdn-images-1.medium.com/max/800/1*qd3CnCCuhlhY72AdXcBWyQ.jpeg';
         survivalGuideMediumUrl = 'https://medium.com/@hacktown/guia-de-sobreviv%C3%AAncia-hack-town-2017-976fe3a1c973';

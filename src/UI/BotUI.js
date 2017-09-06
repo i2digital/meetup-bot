@@ -17,8 +17,8 @@ module.exports = function () {
             msg += item.title + "\n";
             msg += item.presenter;
 
-            var postBackButtonInterface = FacebookUI.postback_button(msg);
-            postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' + sessionID);
+            var postBackButtonInterface = FacebookUI.button(msg);
+            postBackButtonInterface.addButton('Detalhes da Atividade', 'postback','session_details_' + sessionID);
 
             var response = postBackButtonInterface.postBackButton;
 
@@ -74,8 +74,8 @@ module.exports = function () {
                 msg += item.date_start + ' / ' + item.date_end;
               }
 
-              var postBackButtonInterface = FacebookUI.postback_button(msg);
-              postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' + sessionID);
+              var postBackButtonInterface = FacebookUI.button(msg);
+              postBackButtonInterface.addButton('Detalhes da Atividade', 'postback','session_details_' + sessionID);
 
               var response = postBackButtonInterface.postBackButton;
               convo.say(response);
@@ -97,8 +97,8 @@ module.exports = function () {
       bot.reply(message, presenterPic, function () {
         bot.reply(message, msg, function () {
           var text = 'Aqui voce pode ver todas as atividades deste palestrante!';
-          var postBackButtonInterface = FacebookUI.postback_button(text);
-          postBackButtonInterface.addButton('Atividades', 'presenter_sessions_' + item.id);
+          var postBackButtonInterface = FacebookUI.button(text);
+          postBackButtonInterface.addButton('Atividades', 'postback','presenter_sessions_' + item.id);
 
           var viewSessionsButton = postBackButtonInterface.postBackButton;
 
@@ -143,8 +143,8 @@ module.exports = function () {
             } else {
               var text = 'Veja como chegar:';
             }
-            var postBackButtonInterface = FacebookUI.postback_button(text);
-            postBackButtonInterface.addButton('Ver Direções', 'location_id_' + item.location_id);
+            var postBackButtonInterface = FacebookUI.button(text);
+            postBackButtonInterface.addButton('Ver Direções', 'postback','location_id_' + item.location_id);
             var response = postBackButtonInterface.postBackButton;
 
             bot.reply(message, response);
@@ -165,16 +165,31 @@ module.exports = function () {
 
               var msg = item.title + ':\n';
 
-              var postBackButtonInterface = FacebookUI.postback_button(msg);
-              postBackButtonInterface.addButton('Atividades no local', 'location_sessions_' + locationID);
+              var postBackButtonInterface = FacebookUI.button(msg);
+              postBackButtonInterface.addButton('Atividades no local', 'postback','location_sessions_' + locationID);
 
               var response = postBackButtonInterface.postBackButton;
               convo.say(response);
               convo.next();
             });
+
+            var button = FacebookUI.button('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
+            button.addButton('Programação', 'web_url','http://hacktown.com.br/programacao-oficial/');
+            var responseButton = button.postBackButton;
+
+            convo.say(responseButton);
+            convo.next();
+
           });
         } else {
-          bot.reply(message, 'Não existem localizações para serem exibidas.')
+          bot.reply(message, 'Não existem localizações para serem exibidas.', function() {
+
+            var button = FacebookUI.button('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
+            button.addButton('Programação', 'web_url','http://hacktown.com.br/programacao-oficial/');
+            var responseButton = button.postBackButton;
+
+            bot.reply(message, responseButton);
+          })
         }
       },
 
@@ -194,16 +209,29 @@ module.exports = function () {
                 msg += ' - ' + item.text;
               }
 
-              var postBackButtonInterface = FacebookUI.postback_button(msg);
-              postBackButtonInterface.addButton('Atividades do palestrante', 'presenter_sessions_' + presenterID);
+              var postBackButtonInterface = FacebookUI.button(msg);
+              postBackButtonInterface.addButton('Atividades do palestrante', 'postback','presenter_sessions_' + presenterID);
 
               var response = postBackButtonInterface.postBackButton;
               convo.say(response);
               convo.next();
             });
+
+            var button = FacebookUI.button('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+            button.addButton('Programação', 'web_url','http://hacktown.com.br/programacao-oficial/');
+            var responseButton = button.postBackButton;
+
+            convo.say(responseButton);
+            convo.next();
           });
         } else {
-          bot.reply(message, 'Não existem localizações para serem exibidas.')
+          bot.reply(message, 'Não existem palestrantes para serem exibidos.', function() {
+            var button = FacebookUI.button('Acesse nossa programação oficial e confira tudo sobre nossos palestrantes.');
+            button.addButton('Programação', 'web_url','http://hacktown.com.br/programacao-oficial/');
+            var responseButton = button.postBackButton;
+
+            bot.reply(message, responseButton);
+          })
         }
       },
 
@@ -250,8 +278,15 @@ module.exports = function () {
           });
           response = genericTemplate.genericTemplateMessage;
           convo.say(response);
+
+          var button = FacebookUI.button('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          button.addButton('Programação', 'web_url','http://hacktown.com.br/programacao-oficial/');
+          var responseButton = button.postBackButton;
+
+          convo.say(responseButton);
           convo.next();
         });
+
       } else {
         bot.reply(message, 'Não encontrei nenhum resultado para sua busca.');
       }
@@ -271,9 +306,9 @@ module.exports = function () {
               msg += item.title + "\n";
               msg += item.presenter;
 
-              var postBackButtonInterface = FacebookUI.postback_button(msg);
-              postBackButtonInterface.addButton('Detalhes da Atividade', 'session_details_' + sessionID);
-              postBackButtonInterface.addButton('Detalhes do Palestrante', 'presenter_details_' + presenterID);
+              var postBackButtonInterface = FacebookUI.button(msg);
+              postBackButtonInterface.addButton('Detalhes da Atividade', 'postback', 'session_details_' + sessionID);
+              postBackButtonInterface.addButton('Detalhes do Palestrante', 'postback','presenter_details_' + presenterID);
 
               var response = postBackButtonInterface.postBackButton;
 

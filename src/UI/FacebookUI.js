@@ -70,7 +70,7 @@ module.exports.quick_reply = function () {
   return Widget;
 };
 
-module.exports.postback_button = function (messageText) {
+module.exports.button = function (messageText) {
 
   var postbackButtonInterface = {
 
@@ -85,12 +85,22 @@ module.exports.postback_button = function (messageText) {
       }
     },
 
-    addButton: function (title, url_or_payload) {
-      var newButton = {
-        type: "postback",
-        title: title,
-        payload: url_or_payload
-      };
+    addButton: function (title, type, url_or_payload) {
+      var newButton;
+      if (type === 'web_url') {
+        newButton = {
+          type: type,
+          url: url_or_payload,
+          title: title
+        }
+      }
+      else if (type === 'postback') {
+        newButton = {
+          type: type,
+          title: title,
+          payload: url_or_payload //TODO payload com id para consultar detalhes de uma palestra
+        }
+      }
       postbackButtonInterface.postBackButton.attachment.payload.buttons.push(newButton);
     }
 
