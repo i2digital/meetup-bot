@@ -1,6 +1,6 @@
 var FacebookUI = require('../UI/FacebookUI');
 
-module.exports = function (controller, watsonMiddleware) {
+module.exports = function (controller) {
 
   controller.hears(['PAYLOAD_MAP', 'Mapa', 'Mapa do Evento'], ['message_received'], function (bot, message) {
 

@@ -1,7 +1,7 @@
 const SessionService = require('../services/SessionService');
 const BotUI = require('../UI/BotUI');
 
-module.exports = function (controller, watsonMiddleware) {
+module.exports = function (controller) {
 
   var BotUserService = require('../services/BotUserService')(controller);
 

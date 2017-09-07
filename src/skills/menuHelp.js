@@ -1,4 +1,4 @@
-module.exports = function (controller, watsonMiddleware) {
+module.exports = function (controller) {
 
   controller.hears(['PAYLOAD_HELP', 'Ajuda'], ['message_received'], function (bot, message) {
 

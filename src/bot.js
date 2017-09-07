@@ -29,19 +29,19 @@ var controller = Botkit.facebookbot({
   receive_via_postback: true
 });
 
-var watsonMiddleware = require('botkit-middleware-watson')({
-  username: process.env.WATSON_CONVERSATION_USERNAME,
-  password: process.env.WATSON_CONVERSATION_PASSWORD,
-  workspace_id: process.env.WATSON_CONVERSATION_WORKSPACEID,
-  version_date: '2017-05-26'
-});
+// var watsonMiddleware = require('botkit-middleware-watson')({
+//   username: process.env.WATSON_CONVERSATION_USERNAME,
+//   password: process.env.WATSON_CONVERSATION_PASSWORD,
+//   workspace_id: process.env.WATSON_CONVERSATION_WORKSPACEID,
+//   version_date: '2017-05-26'
+// });
 // controller.middleware.receive.use(watsonMiddleware.receive);
 
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
 var normalizedPath = require("path").join(__dirname, "skills");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
-  require("./skills/" + file)(controller, watsonMiddleware);
+  require("./skills/" + file)(controller);
 });
 
 require(__dirname + '/components/subscribe_events.js')(controller);

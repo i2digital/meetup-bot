@@ -2,7 +2,7 @@ var BotUI = require('../UI/BotUI');
 var FacebookUI = require('../UI/FacebookUI');
 var FacebookUser = require('../services/FacebookUser');
 
-module.exports = function (controller, watsonMiddleware) {
+module.exports = function (controller) {
 
   var BotUserService = require('../services/BotUserService.js')(controller);
 
