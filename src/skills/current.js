@@ -1,3 +1,5 @@
+const SessionService = require('../services/SessionService');
+
 module.exports = function (controller) {
 
   var BotUserService = require('../services/BotUserService.js')(controller);
