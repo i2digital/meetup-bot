@@ -69,8 +69,6 @@ var self = module.exports = function () {
 
         bot.startConversation(message, function (err, convo) {
 
-          genericTemplate = FacebookUI.generic_template_model();
-
           items.forEach(function (item) {
 
             sessionID = item.id;
@@ -94,14 +92,21 @@ var self = module.exports = function () {
 
             additionalInfo = presenter + date;
 
-            genericTemplate.addElement(title, null, additionalInfo, 'postback', null, false, null);
+            msg = title + '\n' + additionalInfo;
 
-            if (item.presenter) {
-              genericTemplate.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID, elementIndex);
-            }
+
+            var postBackButtonInterface = FacebookUI.button(msg);
+            postBackButtonInterface.addButton('+ sobre atividades', 'postback', 'presenter_details_' + presenterID);
+
+            var response = postBackButtonInterface.postBackButton;
+
+            // genericTemplate.addElement(title, null, additionalInfo, 'postback', null, false, null);
+            //
+            // if (item.presenter) {
+            //   genericTemplate.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID, elementIndex);
+            // }
 
             elementIndex++;
-            var response = genericTemplate.message;
             convo.say(response);
             convo.next();
           });
