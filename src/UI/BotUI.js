@@ -93,10 +93,9 @@ var self = module.exports = function () {
             additionalInfo = presenter + date;
 
             msg = title + '\n' + additionalInfo;
-
-
+            
             var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('+ sobre atividades', 'postback', 'presenter_details_' + presenterID);
+            postBackButtonInterface.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID);
 
             var response = postBackButtonInterface.postBackButton;
 
