@@ -5,7 +5,6 @@ var self = module.exports = function () {
   BotUI = {
 
     formatSessionsCarrousel: function (bot, message, items) {
-      console.log("formatSessionsCarrousel");
       if (items && items.length > 0) {
         elementIndex = 0;
 
@@ -65,11 +64,12 @@ var self = module.exports = function () {
     },
 
     formatSessionsList: function (bot, message, items) {
-      console.log("formatSessionsCarrousel");
       if (items && items.length > 0) {
         elementIndex = 0;
 
         bot.startConversation(message, function (err, convo) {
+
+          genericTemplate = FacebookUI.generic_template_model();
 
           items.forEach(function (item) {
 
