@@ -1,5 +1,7 @@
 module.exports = function (controller) {
 
+  var BotUserService = require('../services/BotUserService.js')(controller);
+
   controller.hears(['agora', 'now', 'acontecendo'], ['message_received'], function (bot, message) {
 
     BotUserService.load(message).then(function (BotUser) {
