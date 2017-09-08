@@ -1,4 +1,5 @@
 const SessionService = require('../services/SessionService');
+const BotUI = require('../UI/BotUI');
 
 module.exports = function (controller) {
 
