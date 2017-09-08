@@ -5,40 +5,37 @@ module.exports = function (controller) {
 
   var BotUserService = require('../services/BotUserService')(controller);
 
-  controller.hears(['SESSION_PAYLOAD', 'Palestra',
-    'PRESENTER_PAYLOAD', 'Palestrante',
-    'LOCATION_PAYLOAD', 'Local'], ['message_received'], function (bot, message) {
-
-    bot.reply(message, 'Me diga uma palavra para eu pesquisar:', function () {
-
+  controller.hears(['PRESENTER_PAYLOAD', 'Palestrante'], ['message_received'], function (bot, message) {
+    bot.reply(message, 'Diga ao menos parte do nome do palestrante ou do local, para eu pesquisar:', function () {
       BotUserService.load(message).then(function (BotUser) {
-
         BotUser.searchContext = {
-          type: ''
+          type: 'presenter_context'
         };
-
-        if (message.text === 'Palestra'
-          || message.quick_reply.payload == 'SESSION_PAYLOAD') {
-
-          BotUser.searchContext.type = 'session_context'
-
-        }
-        else if (message.text === 'Palestrante'
-          || message.quick_reply.payload == 'PRESENTER_PAYLOAD') {
-
-          BotUser.searchContext.type = 'presenter_context'
-
-        }
-        else if (message.text === 'Local'
-          || message.quick_reply.payload == 'LOCATION_PAYLOAD') {
-
-          BotUser.searchContext.type = 'location_context'
-
-        }
-
         BotUserService.save(BotUser);
-
       });
     });
   });
-}
+
+  controller.hears(['SESSION_PAYLOAD', 'Palestra'], ['message_received'], function (bot, message) {
+    bot.reply(message, 'Diga ao menos parte do nome do palestrante, para eu pesquisar:', function () {
+      BotUserService.load(message).then(function (BotUser) {
+        BotUser.searchContext = {
+          type: 'session_context'
+        };
+        BotUserService.save(BotUser);
+      });
+    });
+  });
+
+  controller.hears(['LOCATION_PAYLOAD', 'Local'], ['message_received'], function (bot, message) {
+    bot.reply(message, 'Diga ao menos parte do nome do lugar, para eu pesquisar:', function () {
+      BotUserService.load(message).then(function (BotUser) {
+        BotUser.searchContext = {
+          type: 'location_context'
+        };
+        BotUserService.save(BotUser);
+      });
+    });
+  });
+
+};

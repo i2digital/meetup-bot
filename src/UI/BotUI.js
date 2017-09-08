@@ -49,7 +49,7 @@ var self = module.exports = function () {
           response = genericTemplate.message;
           convo.say(response);
 
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
 
           convo.say(websiteButton);
           convo.next();
@@ -57,7 +57,7 @@ var self = module.exports = function () {
 
       } else {
         bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function () {
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
           bot.reply(message, websiteButton);
         });
       }
@@ -109,7 +109,7 @@ var self = module.exports = function () {
 
       } else {
         bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function () {
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
           bot.reply(message, websiteButton);
         });
       }
@@ -137,7 +137,7 @@ var self = module.exports = function () {
             convo.next();
           });
 
-          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
 
           convo.say(websiteButton);
           convo.next();
@@ -146,7 +146,7 @@ var self = module.exports = function () {
       } else {
         bot.reply(message, 'Não existem localizações para serem exibidas.', function () {
 
-          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
 
           bot.reply(message, websiteButton);
         });
@@ -178,7 +178,7 @@ var self = module.exports = function () {
             convo.next();
           });
 
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
           convo.say(websiteButton);
           convo.next();
         });
@@ -186,7 +186,7 @@ var self = module.exports = function () {
       } else {
         bot.reply(message, 'Não existem palestrantes para serem exibidos.', function () {
 
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
           bot.reply(message, websiteButton);
         });
       }
@@ -226,14 +226,14 @@ var self = module.exports = function () {
             convo.say(response);
             convo.next();
           });
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
           convo.say(websiteButton);
           convo.next();
         });
 
       } else {
         bot.reply(message, 'Não existem atividades para esta localização.', function () {
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
+          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
           bot.reply(message, websiteButton);
         });
       }
