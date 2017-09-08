@@ -93,17 +93,12 @@ var self = module.exports = function () {
             additionalInfo = presenter + date;
 
             msg = title + '\n' + additionalInfo;
-            
+
             var postBackButtonInterface = FacebookUI.button(msg);
+            postBackButtonInterface.addButton('+ sobre atividade', 'postback', 'session_details_' + sessionID);
             postBackButtonInterface.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID);
 
             var response = postBackButtonInterface.postBackButton;
-
-            // genericTemplate.addElement(title, null, additionalInfo, 'postback', null, false, null);
-            //
-            // if (item.presenter) {
-            //   genericTemplate.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID, elementIndex);
-            // }
 
             elementIndex++;
             convo.say(response);
