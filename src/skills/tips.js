@@ -19,7 +19,7 @@ module.exports = function (controller) {
       genericTemplate.addElement('Conheça a comunidade de caronas e hospedagens', sharedRidesGroupImageUrl, null, 'postback', null, false, null);
       genericTemplate.addButton('Ver comunidade', 'web_url', sharedRidesGroupUrl, 1);
 
-      replyMessage = genericTemplate.genericTemplateMessage;
+      replyMessage = genericTemplate.message;
       bot.reply(message, replyMessage);
 
     });

@@ -47,7 +47,7 @@ var self = module.exports = function () {
 
           });
 
-          response = genericTemplate.genericTemplateMessage;
+          response = genericTemplate.message;
           convo.say(response);
 
           websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
@@ -57,13 +57,64 @@ var self = module.exports = function () {
         });
 
       } else {
-        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function() {
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function () {
           websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
           bot.reply(message, websiteButton);
         });
       }
     },
 
+    formatSessionsList: function (bot, message, items) {
+      console.log("formatSessionsCarrousel");
+      if (items && items.length > 0) {
+        elementIndex = 0;
+
+        bot.startConversation(message, function (err, convo) {
+
+          items.forEach(function (item) {
+
+            sessionID = item.id;
+            presenterID = item.presenter_id;
+            title = item.title;
+            var presenter = '';
+            var date = '';
+
+            if (item.presenter) {
+              presenter = item.presenter + '\n';
+            }
+            if (item.date_day) {
+              date += item.date_day;
+            }
+            if (item.date_start) {
+              date += ' - ' + item.date_start;
+            }
+            if (item.date_end) {
+              date += ' / ' + item.date_end
+            }
+
+            additionalInfo = presenter + date;
+
+            genericTemplate.addElement(title, null, additionalInfo, 'postback', null, false, null);
+
+            if (item.presenter) {
+              genericTemplate.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID, elementIndex);
+            }
+
+            elementIndex++;
+            var response = genericTemplate.message;
+            convo.say(response);
+            convo.next();
+          });
+
+        });
+
+      } else {
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function () {
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          bot.reply(message, websiteButton);
+        });
+      }
+    },
 
 
     formatLocationsList: function (bot, message, items) {
@@ -182,7 +233,7 @@ var self = module.exports = function () {
         });
 
       } else {
-        bot.reply(message, 'Não existem atividades para esta localização.', function() {
+        bot.reply(message, 'Não existem atividades para esta localização.', function () {
           websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
           bot.reply(message, websiteButton);
         });

@@ -112,7 +112,7 @@ module.exports.button = function (messageText) {
 module.exports.generic_template_model = function () {
   var GenericTemplateInterface = {
 
-    genericTemplateMessage: {
+    message: {
       attachment: {
         type: "template",
         payload: {
@@ -136,7 +136,7 @@ module.exports.generic_template_model = function () {
         // },
         buttons: []
       };
-      GenericTemplateInterface.genericTemplateMessage.attachment.payload.elements.push(newElement);
+      GenericTemplateInterface.message.attachment.payload.elements.push(newElement);
     },
 
     addButton: function (title, type, url_or_payload, elementIndex) {
@@ -155,7 +155,7 @@ module.exports.generic_template_model = function () {
           payload: url_or_payload //TODO payload com id para consultar detalhes de uma palestra
         }
       }
-      GenericTemplateInterface.genericTemplateMessage.attachment.payload.elements[elementIndex].buttons.push(newButton);
+      GenericTemplateInterface.message.attachment.payload.elements[elementIndex].buttons.push(newButton);
     }
   };
 
