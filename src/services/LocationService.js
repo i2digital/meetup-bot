@@ -3,6 +3,10 @@ var SessionService = require('./SessionService');
 
 module.exports = function () {
 
+  function str_pad(n) {
+    return String("00" + n).slice(-2);
+  }
+
   api_path = process.env.MEETUPBOT_API_URL;
   event_id = process.env.MEETUPBOT_API_EVENT_ID;
 
