@@ -44,7 +44,11 @@ module.exports = function () {
       });
     },
     getSearch: function (keyword) {
+      date = new Date();
+      date_string = date.getFullYear();
+      date_string += '-' + str_pad((date.getMonth() + 1)) + '-';
       return this.find({
+        start: date_string + str_pad(date.getDate()) + 'T00:00:00',
         search: keyword
       });
     },

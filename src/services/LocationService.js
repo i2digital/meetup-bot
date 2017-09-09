@@ -36,7 +36,11 @@ module.exports = function () {
     },
 
     getLocationSessions: function (locationId) {
+      date = new Date();
+      date_string = date.getFullYear();
+      date_string += '-' + str_pad((date.getMonth() + 1)) + '-';
       return SessionService().find({
+        start: date_string + str_pad(date.getDate()) + 'T00:00:00',
         location_id: locationId
       });
     }
