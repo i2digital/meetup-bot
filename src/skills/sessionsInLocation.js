@@ -8,19 +8,18 @@ module.exports = function (controller) {
 
     locationID = message.match[1];
 
-    bot.startTyping(message, function() {
+    bot.startTyping(message, function () {
 
-        LocationService().getLocationSessions(locationID)
-        .then(function(items) {
-            console.log(items);
-            BotUI().formatSessionsCarrousel(bot, message, items);
+      LocationService().getLocationSessions(locationID)
+        .then(function (items) {
+          BotUI().formatSessionsCarrousel(bot, message, items);
         })
-        .catch(function(err){
-            console.log('Error in SessionService.getDetails()');
-            console.log(err);
+        .catch(function (err) {
+          console.log('Error in SessionService.getDetails()');
+          console.log(err);
         });
     });
 
   });
 
-}
+};

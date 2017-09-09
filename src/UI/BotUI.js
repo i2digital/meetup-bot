@@ -123,10 +123,7 @@ var self = module.exports = function () {
 
           items.slice(0, 5).forEach(function (item) {
 
-            var msg;
-
             var locationID = item.id;
-
             var msg = item.title + ':\n';
 
             var postBackButtonInterface = FacebookUI.button(msg);

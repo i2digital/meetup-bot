@@ -43,10 +43,12 @@ module.exports = function () {
       date = new Date();
       date_string = date.getFullYear();
       date_string += '-' + str_pad((date.getMonth() + 1)) + '-';
-      return SessionService().find({
+      params = {
         start: date_string + str_pad(date.getDate()) + 'T00:00:00',
         location_id: locationId
-      });
+      };
+      console.log(params);
+      return SessionService().find(params);
     }
 
   };
