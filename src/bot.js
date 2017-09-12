@@ -39,12 +39,8 @@ var controller = Botkit.facebookbot({
 
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
-var normalizedPath = require("path").join(__dirname, "skills");
-require("fs").readdirSync(normalizedPath).forEach(function (file) {
-  require("./skills/" + file)(controller);
-});
-
 require(__dirname + '/components/subscribe_events.js')(controller);
 require(__dirname + '/components/thread_settings.js')(controller);
 require(__dirname + '/components/plugin_dashbot.js')(controller);
+require(__dirname + '/components/main_listener.js')(controller);
 // require(__dirname + '/components/watson_processing.js')(controller);
