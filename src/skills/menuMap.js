@@ -24,9 +24,12 @@ module.exports.condition = function (params) {
 
 module.exports.run = function (params) {
 
+  message = params.message;
+  bot = params.bot;
+
   var FacebookUI = require('../UI/FacebookUI');
 
-  params.bot.startTyping(message, function () {
+  bot.startTyping(message, function () {
     bot.reply(message, 'Se perde não, hein! ;)', function () {
 
       url = 'https://scontent.fsdu6-1.fna.fbcdn.net/v/t31.0-8/21200863_1947435318804214_5858238536783831471_o.jpg?oh=02dc98f70cf477271eeee3626180aed7&oe=5A199B00';
