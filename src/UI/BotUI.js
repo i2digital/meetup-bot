@@ -5,6 +5,7 @@ var self = module.exports = function () {
   BotUI = {
 
     formatSessionsCarrousel: function (bot, message, items) {
+      console.log("formatSessionsCarrousel");
       if (items && items.length > 0) {
         elementIndex = 0;
 
@@ -46,74 +47,23 @@ var self = module.exports = function () {
 
           });
 
-          response = genericTemplate.message;
+          response = genericTemplate.genericTemplateMessage;
           convo.say(response);
 
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
 
           convo.say(websiteButton);
           convo.next();
         });
 
       } else {
-        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function () {
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function() {
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
           bot.reply(message, websiteButton);
         });
       }
     },
 
-    formatSessionsList: function (bot, message, items) {
-      if (items && items.length > 0) {
-        elementIndex = 0;
-
-        bot.startConversation(message, function (err, convo) {
-
-          items.forEach(function (item) {
-
-            sessionID = item.id;
-            presenterID = item.presenter_id;
-            title = item.title;
-            var presenter = '';
-            var date = '';
-
-            if (item.presenter) {
-              presenter = item.presenter + '\n';
-            }
-            if (item.date_day) {
-              date += item.date_day;
-            }
-            if (item.date_start) {
-              date += ' - ' + item.date_start;
-            }
-            if (item.date_end) {
-              date += ' / ' + item.date_end
-            }
-
-            additionalInfo = presenter + date;
-
-            msg = title + '\n' + additionalInfo;
-
-            var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('+ sobre atividade', 'postback', 'session_details_' + sessionID);
-            postBackButtonInterface.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID);
-
-            var response = postBackButtonInterface.postBackButton;
-
-            elementIndex++;
-            convo.say(response);
-            convo.next();
-          });
-
-        });
-
-      } else {
-        bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function () {
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
-          bot.reply(message, websiteButton);
-        });
-      }
-    },
 
 
     formatLocationsList: function (bot, message, items) {
@@ -123,7 +73,10 @@ var self = module.exports = function () {
 
           items.slice(0, 5).forEach(function (item) {
 
+            var msg;
+
             var locationID = item.id;
+
             var msg = item.title + ':\n';
 
             var postBackButtonInterface = FacebookUI.button(msg);
@@ -134,7 +87,7 @@ var self = module.exports = function () {
             convo.next();
           });
 
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
 
           convo.say(websiteButton);
           convo.next();
@@ -143,7 +96,7 @@ var self = module.exports = function () {
       } else {
         bot.reply(message, 'Não existem localizações para serem exibidas.', function () {
 
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
 
           bot.reply(message, websiteButton);
         });
@@ -175,7 +128,7 @@ var self = module.exports = function () {
             convo.next();
           });
 
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
           convo.say(websiteButton);
           convo.next();
         });
@@ -183,7 +136,7 @@ var self = module.exports = function () {
       } else {
         bot.reply(message, 'Não existem palestrantes para serem exibidos.', function () {
 
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
           bot.reply(message, websiteButton);
         });
       }
@@ -223,14 +176,14 @@ var self = module.exports = function () {
             convo.say(response);
             convo.next();
           });
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
           convo.say(websiteButton);
           convo.next();
         });
 
       } else {
-        bot.reply(message, 'Não existem atividades para esta localização.', function () {
-          websiteButton = self().redirectToWebsiteButton('Não achou o que queria? Veja a programação completa no site');
+        bot.reply(message, 'Não existem atividades para esta localização.', function() {
+          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
           bot.reply(message, websiteButton);
         });
       }

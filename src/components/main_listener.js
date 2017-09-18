@@ -1,7 +1,8 @@
 module.exports = function (controller) {
 
   controller.hears(['(.*)'], ['message_received'], function (bot, message) {
-    console.log('TESTE AAA');
+
+    console.log(message);
 
     var normalizedPath = require("path").join(__dirname, "skills").replace('components/', '');
     require("fs").readdirSync(normalizedPath).forEach(function (file) {
@@ -20,14 +21,14 @@ module.exports = function (controller) {
       params = {
         controller: controller,
         bot: bot,
-        message: message
+        message: message,
       };
-      console.log('TESTE BBB');
+
       if (skill.condition(params)) {
+        console.log('SKILL RUN')
         skill.run(params);
       }
 
     });
-
   });
 };
