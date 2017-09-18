@@ -4,7 +4,7 @@ module.exports.condition = function (params) {
 
 module.exports.run = function (params) {
 
-  var BotUserService = require('../services/BotUserService.js')(params.controller);
+  const BotUserService = require('../services/BotUserService.js')(params.controller);
 
   BotUserService.load(params.message).then(function (BotUser) {
     BotUser.history.push(message);

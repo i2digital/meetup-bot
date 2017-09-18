@@ -1,4 +1,4 @@
-const SessionService = require('../services/SessionService');
+const PresenterService = require('../services/PresenterService');
 
 const BotUI = require('../UI/BotUI');
 
@@ -17,7 +17,7 @@ module.exports.condition = function(params) {
 
 function setConditionBasedOnContext(BotUser) {
   promise = new Promise(function(resolve, reject) {
-    if(BotUser.searchContext.type === 'session_context') {
+    if(BotUser.searchContext.type === 'presenter_context') {
       resolve(true);
     } else {
       reject(false);
@@ -28,8 +28,8 @@ function setConditionBasedOnContext(BotUser) {
 
 function runOnTrue (condition) {
   heardInput = condition;
-  if(condition){
-    run(params)
+  if(condition) {
+    run(params);
   }
 }
 
@@ -48,9 +48,9 @@ let run = module.exports.run = function (params) {
     bot.reply(message, 'Buscando por "' + keyword + '"...', function () {
       bot.startTyping(message, function () {
 
-        SessionService().getSearch(keyword)
+        PresenterService().getSearch(keyword)
         .then(function (items) {
-          BotUI().formatSessionsCarrousel(bot, message, items);
+          BotUI().formatPresentersList(bot, message, items);
         })
         .catch(function (err) {
           console.log('Error in SessionService.getSearch()');

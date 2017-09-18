@@ -24,8 +24,8 @@ module.exports = function (controller) {
         message: message,
       };
 
-      if (skill.condition(params)) {
-        console.log('SKILL RUN')
+      if (skill.condition(params) === true) {
+        console.log('SKILL RUN');
         skill.run(params);
       }
 

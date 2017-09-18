@@ -4,8 +4,6 @@ const FacebookUser = require('../services/FacebookUser');
 
 module.exports.condition = function (params) {
 
-  console.log(params);
-
   const message = params.message;
 
   if(message.type === 'facebook_postback'
