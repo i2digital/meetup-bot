@@ -1,6 +1,6 @@
 const FacebookUI = require('./FacebookUI');
 const buttonWidget = require('../FacebookUI/button');
-const genericTemplateWidget = require('../FacebookUI/genericTemplate');
+// const genericTemplateWidget = require('../FacebookUI/genericTemplate');
 
 var self = module.exports = function () {
 
