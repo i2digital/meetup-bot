@@ -2,10 +2,10 @@
 
 module.exports.imageMessage = function (imageUrl) {
   return {
-    "attachment": {
-      "type": "image",
-      "payload": {
-        "url": imageUrl
+    attachment: {
+      type: "image",
+      payload: {
+        url: imageUrl
       }
     }
   };
@@ -35,16 +35,16 @@ module.exports.webview_button = function (textMessage, urlPath, buttonTitle) {
 
 module.exports.staticMapLocationDisplay = function (title, lat, long, address) {
   return {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "generic",
-        "elements": {
-          "element": {
-            "title": title,
-            "subtitle": address,
-            "image_url": "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center=" + lat + "," + long + "&zoom=16&markers=" + lat + "," + long,
-            "item_url": "http:\/\/maps.apple.com\/maps?q=" + lat + "," + long + "&z=16"
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: {
+          element: {
+            title: title,
+            subtitle: address,
+            image_url: "https:\/\/maps.googleapis.com\/maps\/api\/staticmap?size=764x400&center=" + lat + "," + long + "&zoom=16&markers=" + lat + "," + long,
+            item_url: "http:\/\/maps.apple.com\/maps?q=" + lat + "," + long + "&z=16"
           }
         }
       }
@@ -53,6 +53,7 @@ module.exports.staticMapLocationDisplay = function (title, lat, long, address) {
 };
 
 module.exports.quick_reply = function () {
+
   var Widget = {
     message: {
       text: '',
@@ -127,13 +128,6 @@ module.exports.generic_template_model = function () {
         title: title,
         image_url: image_url,
         subtitle: subtitle,
-        // default_action: {
-        //     type: type,
-        //     url: urlPath,
-        //     messenger_extensions: isExtension,
-        //     webview_height_ratio: "tall",
-        //     fallback_url: fallback_url
-        // },
         buttons: []
       };
       GenericTemplateInterface.message.attachment.payload.elements.push(newElement);

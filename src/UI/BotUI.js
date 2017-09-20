@@ -1,4 +1,6 @@
 const FacebookUI = require('./FacebookUI');
+const buttonWidget = require('../FacebookUI/button');
+const genericTemplateWidget = require('../FacebookUI/genericTemplate');
 
 var self = module.exports = function () {
 
@@ -50,7 +52,7 @@ var self = module.exports = function () {
           response = genericTemplate.genericTemplateMessage;
           convo.say(response);
 
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          let websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
 
           convo.say(websiteButton);
           convo.next();
@@ -58,13 +60,11 @@ var self = module.exports = function () {
 
       } else {
         bot.reply(message, 'Não encontrei nenhum resultado para sua busca.', function() {
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
+          let websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
           bot.reply(message, websiteButton);
         });
       }
     },
-
-
 
     formatLocationsList: function (bot, message, items) {
 
@@ -73,21 +73,25 @@ var self = module.exports = function () {
 
           items.slice(0, 5).forEach(function (item) {
 
-            var msg;
+            let locationID = item.id;
 
-            var locationID = item.id;
+            let msg = item.title + ':\n';
 
-            var msg = item.title + ':\n';
+            let button = buttonWidget({
+              messageText: msg
+            });
 
-            var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('Atividades no local', 'postback', 'sessions_in_location_' + locationID);
+            button.addButton({
+              type: 'postback',
+              payload: 'sessions_in_location_' + locationID,
+              title: 'Atividades no local',
+            });
 
-            var response = postBackButtonInterface.postBackButton;
-            convo.say(response);
+            convo.say(button.getMessage());
             convo.next();
           });
 
-          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
+          let websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
 
           convo.say(websiteButton);
           convo.next();
@@ -96,7 +100,7 @@ var self = module.exports = function () {
       } else {
         bot.reply(message, 'Não existem localizações para serem exibidas.', function () {
 
-          websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
+          let websiteButton = self().redirectToWebsiteButton('Se quiser saber sobre as atividades em todos os locais do evento, confira nossa programação oficial completa.');
 
           bot.reply(message, websiteButton);
         });
@@ -108,27 +112,32 @@ var self = module.exports = function () {
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
 
-          items.slice(0, 6).forEach(function (item) {
+          items.slice(0, 5).forEach(function (item) {
 
-            var msg;
+            let presenterID = item.id;
 
-            var presenterID = item.id;
-
-            var msg = item.title + '\n\n';
+            let msg = item.title + '\n\n';
 
             if (item.text) {
               msg += ' - ' + item.text.replace('<br />', '\n');
             }
 
-            var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('+ sobre atividades', 'postback', 'presenter_details_' + presenterID);
+            let button = buttonWidget({
+              messageText: msg
+            });
 
-            var response = postBackButtonInterface.postBackButton;
-            convo.say(response);
+            button.addButton({
+              type: 'postback',
+              payload: 'presenter_details_' + presenterID,
+              title: '+ sobre atividades',
+            });
+
+            convo.say(button.getMessage());
             convo.next();
           });
 
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+          let websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+
           convo.say(websiteButton);
           convo.next();
         });
@@ -136,14 +145,15 @@ var self = module.exports = function () {
       } else {
         bot.reply(message, 'Não existem palestrantes para serem exibidos.', function () {
 
-          websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+          let websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outros palestrantes, confira a programação completa no site.');
+
           bot.reply(message, websiteButton);
         });
       }
     },
 
     redirectToWebsiteButton: function (text) {
-      button = FacebookUI.button(text);
+      let button = FacebookUI.button(text);
       button.addButton('Abrir o site', 'web_url', 'http://hacktown.com.br/programacao-oficial/');
       responseButton = button.postBackButton;
       return responseButton;
@@ -251,3 +261,4 @@ var self = module.exports = function () {
 
   return BotUI;
 };
+
