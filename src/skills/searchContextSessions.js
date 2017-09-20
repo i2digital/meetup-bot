@@ -1,6 +1,6 @@
 module.exports.condition = function (params) {
 
-  heardInput = false;
+  let heardInput = false;
 
   switch (params.message.type) {
 

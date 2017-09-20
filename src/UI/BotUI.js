@@ -1,27 +1,26 @@
 const FacebookUI = require('./FacebookUI');
 const buttonWidget = require('../FacebookUI/button');
-// const genericTemplateWidget = require('../FacebookUI/genericTemplate');
+const genericTemplateWidget = require('../FacebookUI/genericTemplate');
 
 var self = module.exports = function () {
 
   BotUI = {
 
     formatSessionsCarrousel: function (bot, message, items) {
-      console.log("formatSessionsCarrousel");
       if (items && items.length > 0) {
         elementIndex = 0;
 
         bot.startConversation(message, function (err, convo) {
 
-          genericTemplate = FacebookUI.generic_template_model();
+          let genericTemplate = genericTemplateWidget();
 
           items.slice(0, 5).forEach(function (item) {
 
-            sessionID = item.id;
-            presenterID = item.presenter_id;
-            title = item.title;
-            var presenter = '';
-            var date = '';
+            let sessionID = item.id;
+            let presenterID = item.presenter_id;
+            let title = item.title;
+            let presenter = '';
+            let date = '';
 
             if (item.presenter) {
               presenter = item.presenter + '\n';
@@ -38,11 +37,18 @@ var self = module.exports = function () {
 
             additionalInfo = presenter + date;
 
-            genericTemplate.addElement(title, null, additionalInfo, 'postback', null, false, null);
-            genericTemplate.addButton('+ sobre atividade', 'postback', 'session_details_' + sessionID, elementIndex);
+            genericTemplate.addElement({title:title, subtitle:additionalInfo});
+
+            genericTemplate.addButton({type:'postback',
+                                        title:'+ sobre atividade',
+                                        payload:'session_details_' + sessionID,
+                                        elementIndex:elementIndex});
 
             if (item.presenter) {
-              genericTemplate.addButton('+ sobre palestrante', 'postback', 'presenter_details_' + presenterID, elementIndex);
+              genericTemplate.addButton({type:'postback',
+                                        title:'+ sobre palestrante',
+                                        payload:'presenter_details_' + presenterID,
+                                        elementIndex:elementIndex});
             }
 
             elementIndex++;
@@ -50,7 +56,7 @@ var self = module.exports = function () {
           });
 
           response = genericTemplate.genericTemplateMessage;
-          convo.say(response);
+          convo.say(genericTemplate.getMessage());
 
           let websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
 
@@ -65,6 +71,7 @@ var self = module.exports = function () {
         });
       }
     },
+
 
     formatLocationsList: function (bot, message, items) {
 

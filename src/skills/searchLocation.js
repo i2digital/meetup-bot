@@ -1,5 +1,5 @@
 const LocationService = require('../services/LocationService');
-
+// const formatLocationList = require('../BotUI/formatLocationList')();
 const BotUI = require('../UI/BotUI');
 
 module.exports.condition = function(params) {

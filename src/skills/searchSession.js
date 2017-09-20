@@ -1,11 +1,12 @@
 const SessionService = require('../services/SessionService');
+const rmDupli = require('../utils/removeDuplicates');
 
 const BotUI = require('../UI/BotUI');
 
 module.exports.condition = function(params) {
 
-  controller = params.controller;
-  message = params.message;
+  let controller = params.controller;
+  let message = params.message;
   let BotUserService = require('../services/BotUserService.js')(controller);
 
   heardInput = false;
@@ -35,9 +36,9 @@ function runOnTrue (condition) {
 
 let run = module.exports.run = function (params) {
 
-  controller = params.controller;
-  bot = params.bot;
-  message = params.message;
+  let controller = params.controller;
+  let bot = params.bot;
+  let message = params.message;
 
   let BotUserService = require('../services/BotUserService.js')(controller);
 
@@ -50,7 +51,9 @@ let run = module.exports.run = function (params) {
 
         SessionService().getSearch(keyword)
         .then(function (items) {
-          BotUI().formatSessionsCarrousel(bot, message, items);
+
+          let noDupsItems = rmDupli(items, 'id');
+          BotUI().formatSessionsCarrousel(bot, message, noDupsItems);
         })
         .catch(function (err) {
           console.log('Error in SessionService.getSearch()');

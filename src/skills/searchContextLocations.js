@@ -1,26 +1,28 @@
 module.exports.condition = function (params) {
 
+  let heardInput = false;
+
   switch (params.message.type) {
 
     case 'message_received':
 
-      inputOptions = ['locais', 'local', 'lugares', 'localizações', 'localizacoes', 'pesquisar locais'];
+      let inputOptions = ['locais', 'local', 'lugares', 'localizações', 'localizacoes', 'pesquisar locais'];
 
       inputOptions.forEach(function(opt) {
         if(params.message.text.toLowerCase() === opt){
-          params.heardInput = true;
+          heardInput = true;
         }
       });
     break;
 
     case 'facebook_postback':
       if (params.message.text == 'LOCATION_PAYLOAD') {
-        params.heardInput = true;
+        heardInput = true;
       }
     break;
   }
 
-  return params.heardInput;
+  return heardInput;
 };
 
 module.exports.run = function (params) {
