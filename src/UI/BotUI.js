@@ -1,6 +1,7 @@
 const FacebookUI = require('./FacebookUI');
 const buttonWidget = require('../FacebookUI/button');
 const genericTemplateWidget = require('../FacebookUI/genericTemplate');
+var rmDupli = require('../utils/removeDuplicates');
 
 var self = module.exports = function () {
 
@@ -55,7 +56,6 @@ var self = module.exports = function () {
 
           });
 
-          response = genericTemplate.genericTemplateMessage;
           convo.say(genericTemplate.getMessage());
 
           let websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre outras atividades, confira a programação completa no site.');
@@ -114,7 +114,7 @@ var self = module.exports = function () {
       }
     },
 
-    formatPresentersList: function (bot, message, items) {
+      formatPresentersList: function (bot, message, items) {
 
       if (items && items.length > 0) {
         bot.startConversation(message, function (err, convo) {
@@ -219,7 +219,8 @@ var self = module.exports = function () {
 
             PresenterService().getPresenterSessions(presenter.id)
               .then(function (items) {
-                self().formatSessionsCarrousel(bot, message, items);
+                let noDuplicateItems = rmDupli(items, 'id');
+                self().formatSessionsCarrousel(bot, message, noDuplicateItems);
               })
               .catch(function (err) {
                 console.log('Error in SessionService.getDetails()');

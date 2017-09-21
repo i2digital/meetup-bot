@@ -51,9 +51,8 @@ let run = module.exports.run = function (params) {
 
         SessionService().getSearch(keyword)
         .then(function (items) {
-
-          let noDupsItems = rmDupli(items, 'id');
-          BotUI().formatSessionsCarrousel(bot, message, noDupsItems);
+          let noDuplicateItems = rmDupli(items, 'id');
+          BotUI().formatSessionsCarrousel(bot, message, noDuplicateItems);
         })
         .catch(function (err) {
           console.log('Error in SessionService.getSearch()');

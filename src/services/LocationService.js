@@ -48,6 +48,7 @@ module.exports = function () {
         location_id: locationId
       };
       console.log(params);
+
       return SessionService().find(params);
     }
 

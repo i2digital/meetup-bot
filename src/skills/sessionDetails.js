@@ -1,6 +1,8 @@
 const SessionService = require('../services/SessionService');
 var FacebookUI = require('../UI/FacebookUI');
 var BotUI = require('../UI/BotUI');
+var rmDupli = require('../utils/removeDuplicates');
+
 
 module.exports.condition = function(params) {
   if (params.message.type === 'facebook_postback'
@@ -24,12 +26,14 @@ module.exports.run = function(params) {
 
       SessionService().getDetails(sessionID)
       .then(function(items) {
-          BotUI().showSessionDetails(bot, message, items);
+
+        let noDuplicateItems = rmDupli(items, 'id');
+
+        BotUI().showSessionDetails(bot, message, noDuplicateItems);
       })
       .catch(function(err){
           console.log('Error in SessionService.getDetails()');
           console.log(err);
       });
   });
-
 }
