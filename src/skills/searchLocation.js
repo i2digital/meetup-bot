@@ -1,16 +1,17 @@
 const LocationService = require('../services/LocationService');
 // const formatLocationList = require('../BotUI/formatLocationList')();
 const BotUI = require('../UI/BotUI');
+let BotUserService = require('../services/BotUserService.js');
 
 module.exports.condition = function(params) {
 
   controller = params.controller;
   message = params.message;
-  let BotUserService = require('../services/BotUserService.js')(controller);
 
+  const userProfile = BotUserService(controller);
   heardInput = false;
 
-  BotUserService.load(message)
+  userProfile.load(message)
   .then(setConditionBasedOnContext)
   .then(runOnTrue);
 };
@@ -39,31 +40,32 @@ let run = module.exports.run = function (params) {
   bot = params.bot;
   message = params.message;
 
-  let BotUserService = require('../services/BotUserService.js')(controller);
+  keyword = message.text;
 
-  BotUserService.load(message).then(function (BotUser) {
+  bot.reply(message, 'Buscando por "' + keyword + '"...', function () {
+    bot.startTyping(message, function () {
 
-    keyword = message.text;
-
-    bot.reply(message, 'Buscando por "' + keyword + '"...', function () {
-      bot.startTyping(message, function () {
-
-        LocationService().getSearch(keyword)
-        .then(function (items) {
-          BotUI().formatLocationsList(bot, message, items);
-        })
-        .catch(function (err) {
-          console.log('Error in SessionService.getSearch()');
-          console.log(err);
-        });
+      LocationService().getSearch(keyword)
+      .then(function (items) {
+        BotUI().formatLocationsList(bot, message, items);
+      })
+      .catch(function (err) {
+        console.log('Error in SessionService.getSearch()');
+        console.log(err);
       });
-
     });
 
-    BotUser.searchContext.type = undefined;
-    BotUserService.save(BotUser);
-
   });
+
+  cleanSearchContext(BotUserService(controller), controller);
+
 };
 
 
+function cleanSearchContext(userProfile, controller) {
+  console.log('CLEAR SEARCH CONTEXT')
+  userProfile.load(message).then(function (BotUser) {
+    BotUser.searchContext.type = undefined;
+    userProfile.save(BotUser);
+  });
+}

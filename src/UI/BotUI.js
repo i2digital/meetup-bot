@@ -186,11 +186,17 @@ var self = module.exports = function () {
               msg += item.date_start + ' / ' + item.date_end;
             }
 
-            var postBackButtonInterface = FacebookUI.button(msg);
-            postBackButtonInterface.addButton('+ sobre atividade', 'postback', 'session_details_' + sessionID);
+            let button = buttonWidget({
+              messageText: msg
+            });
 
-            var response = postBackButtonInterface.postBackButton;
-            convo.say(response);
+            button.addButton({
+              type: 'postback',
+              payload: 'session_details_' + sessionID,
+              title: '+ sobre atividade',
+            });
+
+            convo.say(button.getMessage());
             convo.next();
           });
           websiteButton = self().redirectToWebsiteButton('Caso deseje saber sobre as atividades e locais do evento, confira a programação completa no site.');
