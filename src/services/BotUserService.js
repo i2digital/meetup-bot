@@ -1,6 +1,6 @@
 var Promise = require('promise');
 
-module.exports = function (controller) {
+self = module.exports = function (controller) {
 
   function initiate(id) {
     return {
@@ -45,11 +45,19 @@ module.exports = function (controller) {
     return controller.storage.botusers.save(BotUser);
   }
 
+  function cleanSearchContext(userProfile) {
+    userProfile.load(message).then(function (BotUser) {
+      BotUser.searchContext.type = undefined;
+      userProfile.save(BotUser);
+    });
+  }
+
   return {
     initiate: initiate,
     getByID: getByID,
     load: load,
     getAll: getAll,
-    save: save
+    save: save,
+    cleanSearchContext : cleanSearchContext,
   };
 };

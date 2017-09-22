@@ -1,15 +1,12 @@
 const LocationService = require('../services/LocationService');
-// const formatLocationList = require('../BotUI/formatLocationList')();
 const BotUI = require('../UI/BotUI');
-let BotUserService = require('../services/BotUserService.js');
+const BotUserService = require('../services/BotUserService.js');
 
 module.exports.condition = function(params) {
 
-  controller = params.controller;
-  message = params.message;
-
-  const userProfile = BotUserService(controller);
-  heardInput = false;
+  const controller = params.controller,
+        message = params.message,
+        userProfile = BotUserService(controller);
 
   userProfile.load(message)
   .then(setConditionBasedOnContext)
@@ -28,7 +25,6 @@ function setConditionBasedOnContext(BotUser) {
 }
 
 function runOnTrue (condition) {
-  heardInput = condition;
   if(condition) {
     run(params);
   }
@@ -36,9 +32,10 @@ function runOnTrue (condition) {
 
 let run = module.exports.run = function (params) {
 
-  controller = params.controller;
-  bot = params.bot;
-  message = params.message;
+  const controller = params.controller,
+        bot = params.bot,
+        message = params.message,
+        botUser = BotUserService(controller);
 
   keyword = message.text;
 
@@ -54,18 +51,8 @@ let run = module.exports.run = function (params) {
         console.log(err);
       });
     });
-
   });
 
-  cleanSearchContext(BotUserService(controller), controller);
+  botUser.cleanSearchContext(botUser);
 
 };
-
-
-function cleanSearchContext(userProfile, controller) {
-  console.log('CLEAR SEARCH CONTEXT')
-  userProfile.load(message).then(function (BotUser) {
-    BotUser.searchContext.type = undefined;
-    userProfile.save(BotUser);
-  });
-}
