@@ -1,17 +1,13 @@
-const SessionService = require('../services/SessionService');
-const rmDupli = require('../utils/removeDuplicates');
-
-const BotUI = require('../UI/BotUI');
+const SessionService = require('../services/SessionService'),
+      rmDupli = require('../utils/removeDuplicates'),
+      BotUserService = require('../services/BotUserService.js'),
+      BotUI = require('../UI/BotUI');
 
 module.exports.condition = function(params) {
 
-  let controller = params.controller;
-  let message = params.message;
-  let BotUserService = require('../services/BotUserService.js')(controller);
+  const userProfile = BotUserService(params.controller);
 
-  heardInput = false;
-
-  BotUserService.load(message)
+  userProfile.load(params.message)
   .then(setConditionBasedOnContext)
   .then(runOnTrue);
 };
@@ -28,44 +24,34 @@ function setConditionBasedOnContext(BotUser) {
 }
 
 function runOnTrue (condition) {
-  heardInput = condition;
   if(condition){
-    run(params)
+    run(params);
   }
 }
 
 let run = module.exports.run = function (params) {
 
-  let controller = params.controller;
-  let bot = params.bot;
-  let message = params.message;
+  const userProfile = BotUserService(params.controller),
+        keyword = params.message.text;
 
-  let BotUserService = require('../services/BotUserService.js')(controller);
+  params.bot.reply(params.message, 'Buscando por "' + keyword + '"...', function () {
+    params.bot.startTyping(params.message, function () {
 
-  BotUserService.load(message).then(function (BotUser) {
-
-    keyword = message.text;
-
-    bot.reply(message, 'Buscando por "' + keyword + '"...', function () {
-      bot.startTyping(message, function () {
-
-        SessionService().getSearch(keyword)
-        .then(function (items) {
-          let noDuplicateItems = rmDupli(items, 'id');
-          BotUI().formatSessionsCarrousel(bot, message, noDuplicateItems);
-        })
-        .catch(function (err) {
-          console.log('Error in SessionService.getSearch()');
-          console.log(err);
-        });
+      SessionService().getSearch(keyword)
+      .then(function (items) {
+        let noDuplicateItems = rmDupli(items, 'id');
+        BotUI().formatSessionsCarrousel(params.bot, params.message, noDuplicateItems);
+      })
+      .catch(function (err) {
+        console.log('Error in SessionService.getSearch()');
+        console.log(err);
       });
-
     });
 
-    BotUser.searchContext.type = undefined;
-    BotUserService.save(BotUser);
-
   });
+
+  userProfile.cleanSearchContext(userProfile);
+
 };
 
 

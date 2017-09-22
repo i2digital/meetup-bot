@@ -1,16 +1,12 @@
-const PresenterService = require('../services/PresenterService');
-
-const BotUI = require('../UI/BotUI');
+const PresenterService = require('../services/PresenterService'),
+      BotUserService = require('../services/BotUserService.js'),
+      BotUI = require('../UI/BotUI');
 
 module.exports.condition = function(params) {
 
-  controller = params.controller;
-  message = params.message;
-  let BotUserService = require('../services/BotUserService.js')(controller);
+  const userProfile = BotUserService(params.controller);
 
-  heardInput = false;
-
-  BotUserService.load(message)
+  userProfile.load(params.message)
   .then(setConditionBasedOnContext)
   .then(runOnTrue);
 };
@@ -27,7 +23,6 @@ function setConditionBasedOnContext(BotUser) {
 }
 
 function runOnTrue (condition) {
-  heardInput = condition;
   if(condition) {
     run(params);
   }
@@ -35,35 +30,25 @@ function runOnTrue (condition) {
 
 let run = module.exports.run = function (params) {
 
-  controller = params.controller;
-  bot = params.bot;
-  message = params.message;
+  const userProfile = BotUserService(params.controller),
+        keyword = params.message.text;
 
-  let BotUserService = require('../services/BotUserService.js')(controller);
+  params.bot.reply(params.message, 'Buscando por "' + keyword + '"...', function () {
+    params.bot.startTyping(params.message, function () {
 
-  BotUserService.load(message).then(function (BotUser) {
-
-    keyword = message.text;
-
-    bot.reply(message, 'Buscando por "' + keyword + '"...', function () {
-      bot.startTyping(message, function () {
-
-        PresenterService().getSearch(keyword)
-        .then(function (items) {
-          BotUI().formatPresentersList(bot, message, items);
-        })
-        .catch(function (err) {
-          console.log('Error in SessionService.getSearch()');
-          console.log(err);
-        });
+      PresenterService().getSearch(keyword)
+      .then(function (items) {
+        BotUI().formatPresentersList(params.bot, params.message, items);
+      })
+      .catch(function (err) {
+        console.log('Error in SessionService.getSearch()');
+        console.log(err);
       });
-
     });
 
-    BotUser.searchContext.type = undefined;
-    BotUserService.save(BotUser);
-
   });
+
+  userProfile.cleanSearchContext(userProfile);
 };
 
 

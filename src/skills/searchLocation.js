@@ -4,11 +4,9 @@ const BotUserService = require('../services/BotUserService.js');
 
 module.exports.condition = function(params) {
 
-  const controller = params.controller,
-        message = params.message,
-        userProfile = BotUserService(controller);
+  const userProfile = BotUserService(params.controller);
 
-  userProfile.load(message)
+  userProfile.load(params.message)
   .then(setConditionBasedOnContext)
   .then(runOnTrue);
 };
@@ -32,19 +30,16 @@ function runOnTrue (condition) {
 
 let run = module.exports.run = function (params) {
 
-  const controller = params.controller,
-        bot = params.bot,
-        message = params.message,
-        botUser = BotUserService(controller);
+  const botUser = BotUserService(params.controller);
 
-  keyword = message.text;
+  keyword = params.message.text;
 
-  bot.reply(message, 'Buscando por "' + keyword + '"...', function () {
-    bot.startTyping(message, function () {
+  params.bot.reply(params.message, 'Buscando por "' + keyword + '"...', function () {
+    params.bot.startTyping(params.message, function () {
 
       LocationService().getSearch(keyword)
       .then(function (items) {
-        BotUI().formatLocationsList(bot, message, items);
+        BotUI().formatLocationsList(params.bot, params.message, items);
       })
       .catch(function (err) {
         console.log('Error in SessionService.getSearch()');
