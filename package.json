@@ -1,7 +1,7 @@
 {
-  "name": "hacktown-bot",
-  "version": "0.0.1",
-  "description": "FB Messenger bot para o evento Hacktown 2017",
+  "name": "meetup-bot",
+  "version": "1.0.1",
+  "description": "Chatbot for events/meet ups/congresses to help visitors get information on schedule, speakers, etc",
   "main": "bot.js",
   "scripts": {
     "start": "node src/bot.js"
@@ -25,18 +25,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/howdyai/botkit-starter-facebook.git"
+    "url": "https://github.com/pedrorocha-net/meetup-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/howdyai/botkit-starter-facebook/issues"
+    "url": "https://github.com/pedrorocha-net/meetup-bot/issues"
   },
-  "homepage": "https://github.com/howdyai/botkit-starter-facebook",
-  "keywords": [
-    "bots",
-    "chatbots",
-    "Facebook",
-    "Messenger"
-  ],
+  "homepage": "https://github.com/pedrorocha-net/meetup-bot",
   "author": "pedrogomesrocha@gmail.com",
-  "license": "ISC"
 }

@@ -29,18 +29,9 @@ var controller = Botkit.facebookbot({
   receive_via_postback: true
 });
 
-// var watsonMiddleware = require('botkit-middleware-watson')({
-//   username: process.env.WATSON_CONVERSATION_USERNAME,
-//   password: process.env.WATSON_CONVERSATION_PASSWORD,
-//   workspace_id: process.env.WATSON_CONVERSATION_WORKSPACEID,
-//   version_date: '2017-05-26'
-// });
-// controller.middleware.receive.use(watsonMiddleware.receive);
-
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
 require(__dirname + '/components/subscribe_events.js')(controller);
 require(__dirname + '/components/thread_settings.js')(controller);
 require(__dirname + '/components/plugin_dashbot.js')(controller);
 require(__dirname + '/components/main_listener.js')(controller);
-// require(__dirname + '/components/watson_processing.js')(controller);
